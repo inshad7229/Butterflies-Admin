@@ -1,0 +1,95 @@
+/* You can add global styles to this file, and also import other style files */
+.cus-switch .switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+/* Hide default HTML checkbox */
+.cus-switch .switch input {display:none;}
+
+/* The slider */
+.cus-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.cus-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.cus-switch input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+.cus-switch input:focus + .slider {
+  box-shadow: 0 0 1px #4CAF50;
+}
+
+.cus-switch input:checked + .slider:before {
+  -webkit-transform: translateX(19px);
+  -ms-transform: translateX(19px);
+  transform: translateX(19px);
+}
+
+/* Rounded sliders */
+.cus-switch .slider.round {
+  border-radius: 34px;
+}
+
+.cus-switch .slider.round:before {
+  border-radius: 50%;
+}
+
+.text-switch > span{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.profile-image {
+    float: left;
+    width: 36%;
+}
+.img-thumbnail-profile {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  height: auto;
+  max-width: 70%;
+  padding: 0.25rem;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.user-button {
+  color: #000;
+}
+// .cdk-overlay-pane {
+//   max-height: 85vh;
+//   overflow: hidden;
+// }
+// .cdk-overlay-container {
+//   z-index: 1042;
+// }
+// .cdk-overlay-pane .modal-body{
+//   overflow: scroll;
+//   height: 70vh;
+// }
+.modal-body.cus-height{
+  max-height: 85vh;
+}

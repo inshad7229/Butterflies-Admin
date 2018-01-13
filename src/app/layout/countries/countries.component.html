@@ -1,0 +1,62 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Cities'" [icon]="'fa-edit'"></app-page-header>
+    <div class="row">
+        <div class="col-lg-12">
+            <form role="form" [formGroup]="verifiactionForm">
+                <div class="form-group has-success">
+                    <label class="form-control-label" for="inputSuccess">Country Name</label>
+                    <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['countryName']" [(ngModel)]="datamodel.name">
+                    <p  *ngIf="verifiactionForm.controls['countryName'].hasError('required') && verifiactionForm.controls['countryName'].touched">
+                     City Name is <strong>required</strong>
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['countryName'].hasError('pattern')">
+                               Please enter valid City Name !!
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['countryName'].hasError('maxlength')">
+                               max length is 100
+                    </p>
+                </div>
+                    <button type="submit" class="btn btn-secondary" [disabled]="!verifiactionForm.valid" (click)="onSubmit()">Submit</button>
+                     <button type="reset" class="btn btn-secondary" (click)="onReset()">Reset Button</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="contn-class">
+                <div class="card-header">Countries List</div>
+                <table class="card-body table" matSort (matSortChange)="sortData($event)" *ngIf="sortedData">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th  mat-sort-header="name">Country Name</th>
+                        <th  mat-sort-header="status">Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let country of sortedData ;let i=index" class="{{getClass(i)}}">
+                        <th scope="row">{{i+1}}</th>
+                        <td >{{country.name}}</td>
+                        <td >
+                                 <span class="cus-switch">
+                                    <label class="switch m-b-0">
+                                        <input type="checkbox" [(ngModel)]="country.status" [ngModelOptions]="{standalone: true}" (change)="onChange(country)">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </span>
+                        </td>
+                        <td >
+                            <a  href="javascript:void(0)" (click)="onEdit(country)" class="fa fa-pencil-square-o fa-lg user-button" ></a>
+                            <a  href="javascript:void(0)" (click)="opendelete(country)" class="fa fa-trash fa-lg user-button" ></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+                <mat-paginator *ngIf="CountyList" #pager [length]="CountyList.length"
+                                  [pageSize]="pageSize"
+                                  [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageoption($event)">
+                </mat-paginator>
+    </div>
+    <!-- /.row -->
+</div>

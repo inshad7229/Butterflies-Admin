@@ -1,0 +1,73 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Universities'" [icon]="'fa-edit'"></app-page-header>
+    <div class="row">
+        <div class="col-lg-12">
+            <form role="form" [formGroup]="verifiactionForm">
+            	 <div class="form-group">
+                    <label>Country</label>
+                    <select class="form-control"  [formControl]="verifiactionForm.controls['country_id']" [(ngModel)]="datamodel.country_id" >
+                        <option *ngFor="let country of CountyList" [value]="country.id">{{country.name}}</option>
+                    </select>
+                     <p  *ngIf="verifiactionForm.controls['country_id'].hasError('required') && verifiactionForm.controls['country_id'].touched">
+                     Country Name is <strong>required</strong>
+                    </p>
+                </div>
+                <div class="form-group has-success">
+                    <label class="form-control-label" for="inputSuccess">Country Name</label>
+                    <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['university_name']" [(ngModel)]="datamodel.university_name">
+                    <p  *ngIf="verifiactionForm.controls['university_name'].hasError('required') && verifiactionForm.controls['university_name'].touched">
+                     University Name is <strong>required</strong>
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['university_name'].hasError('pattern')">
+                               Please enter valid University Name !!
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['university_name'].hasError('maxlength')">
+                               max length is 100
+                    </p>
+				</div>
+		            <button type="submit" class="btn btn-secondary" [disabled]="!verifiactionForm.valid" (click)="onSubmit()">Submit</button>
+		             <button type="reset" class="btn btn-secondary" (click)="onReset()">Reset Button</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+    	<div class="contn-class">
+                <div class="card-header">Universities List</div>
+                <table class="card-body table" matSort (matSortChange)="sortData($event)" *ngIf="sortedData">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th  mat-sort-header="country_name">Country Name</th>
+                        <th  mat-sort-header="university_name">University Name</th>
+                        <th  mat-sort-header="status">Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let univesity of sortedData ;let i=index" class="{{getClass(i)}}">
+                        <th scope="row">{{i+1}}</th>
+                        <td >{{univesity.Country.name}}</td>
+                        <td >{{univesity.university_name}}</td>
+                        <td >
+                                 <span class="cus-switch">
+                                    <label class="switch m-b-0">
+                                        <input type="checkbox" [(ngModel)]="univesity.status" [ngModelOptions]="{standalone: true}" (change)="onChange(univesity)">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </span>
+                        </td>
+                        <td >
+                            <a  href="javascript:void(0)" (click)="onEdit(univesity)" class="fa fa-pencil-square-o fa-lg user-button" ></a>
+                            <a  href="javascript:void(0)" (click)="opendelete(univesity)" class="fa fa-trash fa-lg user-button" ></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+                <mat-paginator *ngIf="UniversityList" #pager [length]="UniversityList.length"
+                                  [pageSize]="pageSize"
+                                  [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageoption($event)">
+                </mat-paginator>
+    </div>
+    <!-- /.row -->
+</div>
