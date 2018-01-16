@@ -13,7 +13,7 @@
                     </p>
                 </div>
                 <div class="form-group has-success">
-                    <label class="form-control-label" for="inputSuccess">Country Name</label>
+                    <label class="form-control-label" for="inputSuccess">University Name</label>
                     <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['university_name']" [(ngModel)]="datamodel.university_name">
                     <p  *ngIf="verifiactionForm.controls['university_name'].hasError('required') && verifiactionForm.controls['university_name'].touched">
                      University Name is <strong>required</strong>

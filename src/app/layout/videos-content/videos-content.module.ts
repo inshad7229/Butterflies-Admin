@@ -8,13 +8,13 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {AdminService} from '../../shared/services/admin/admin.service'
 import { PageHeaderModule } from './../../shared';
 
-import { CountriesRoutingModule } from './countries-routing.module';
-import { CountriesComponent,CountryConfirmation } from './countries.component';
+import { VideosContentRoutingModule } from './videos-content-routing.module';
+import { VideosContentComponent,VideoContentConfirmation} from './videos-content.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    CountriesRoutingModule,
+    VideosContentRoutingModule,
     PageHeaderModule,
     ReactiveFormsModule,
 	FormsModule,
@@ -24,8 +24,8 @@ import { CountriesComponent,CountryConfirmation } from './countries.component';
 	MatDialogModule,
 	ToastModule.forRoot(),
   ],
-  declarations: [CountriesComponent,CountryConfirmation],
+  declarations: [VideosContentComponent,VideoContentConfirmation],
   providers:[AdminService],
-  entryComponents:[CountryConfirmation]
+  entryComponents:[VideoContentConfirmation]
 })
-export class CountriesModule { }
+export class VideosContentModule { }

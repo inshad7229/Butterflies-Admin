@@ -19,6 +19,9 @@ const routes: Routes = [
             { path: 'countries', loadChildren: './countries/countries.module#CountriesModule' },
             { path: 'cities', loadChildren: './cities/cities.module#CitiesModule' },
             { path: 'universities', loadChildren: './universities/universities.module#UniversitiesModule' },
+            { path: 'hobbies', loadChildren: './hobbies-icons/hobbies-icons.module#HobbiesIconsModule' },
+            { path: 'introductrory', loadChildren: './introductory-content/introductory-content.module#IntroductoryContentModule' },
+            { path: 'videocontent', loadChildren: './videos-content/videos-content.module#VideosContentModule' },
         ]
     }
 ];

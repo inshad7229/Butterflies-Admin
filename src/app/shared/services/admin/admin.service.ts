@@ -192,6 +192,38 @@ export class AdminService {
         
     );
   }
+
+
+   HobbiesList(): Observable<any> {
+    const url = `${ENV.mainApi}hobbiesListAdmin`;
+    return this.http.get<any>(url,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   hobbiesListAdmin Test`)),
+          catchError(this.handleError('get   hobbiesListAdmin Test', []))
+        
+    );
+  }
+
+
+ introductoryList(): Observable<any> {
+    const url = `${ENV.mainApi}introductoryListAdmin`;
+    return this.http.get<any>(url,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   introductoryListAdmin Test`)),
+          catchError(this.handleError('get   introductoryListAdmin Test', []))
+        
+    );
+  }
+
+  videoContentList(): Observable<any> {
+    const url = `${ENV.mainApi}videosContentListAdmin`;
+    return this.http.get<any>(url,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   videosContentListAdmin Test`)),
+          catchError(this.handleError('get   videosContentListAdmin Test', []))
+        
+    );
+  }
   /**
    * Handle Http operation that failed.
    * Let the app continue.

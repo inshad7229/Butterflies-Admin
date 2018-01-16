@@ -8,13 +8,13 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {AdminService} from '../../shared/services/admin/admin.service'
 import { PageHeaderModule } from './../../shared';
 
-import { CountriesRoutingModule } from './countries-routing.module';
-import { CountriesComponent,CountryConfirmation } from './countries.component';
+import { IntroductoryContentRoutingModule } from './introductory-content-routing.module';
+import { IntroductoryContentComponent } from './introductory-content.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    CountriesRoutingModule,
+    IntroductoryContentRoutingModule,
     PageHeaderModule,
     ReactiveFormsModule,
 	FormsModule,
@@ -24,8 +24,8 @@ import { CountriesComponent,CountryConfirmation } from './countries.component';
 	MatDialogModule,
 	ToastModule.forRoot(),
   ],
-  declarations: [CountriesComponent,CountryConfirmation],
+  declarations: [IntroductoryContentComponent],
   providers:[AdminService],
-  entryComponents:[CountryConfirmation]
+  entryComponents:[IntroductoryContentComponent]
 })
-export class CountriesModule { }
+export class IntroductoryContentModule { }

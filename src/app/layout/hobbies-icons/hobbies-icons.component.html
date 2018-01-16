@@ -7,7 +7,7 @@
                     <label class="form-control-label" for="inputSuccess">Country Name</label>
                     <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['countryName']" [(ngModel)]="datamodel.name">
                     <p  *ngIf="verifiactionForm.controls['countryName'].hasError('required') && verifiactionForm.controls['countryName'].touched">
-                     Country Name is <strong>required</strong>
+                     City Name is <strong>required</strong>
                     </p>
                     <p  *ngIf="verifiactionForm.controls['countryName'].hasError('pattern')">
                                Please enter valid City Name !!
@@ -28,32 +28,40 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th  mat-sort-header="name">Country Name</th>
+                        <th  mat-sort-header="name">Icon Name</th>
+                        <th  >Unselected Icon</th>
+                        <th  >Selected Icon</th>
                         <th  mat-sort-header="status">Status</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let country of sortedData ;let i=index" class="{{getClass(i)}}">
+                    <tr *ngFor="let hobbies of sortedData ;let i=index" class="{{getClass(i)}}">
                         <th scope="row">{{i+1}}</th>
-                        <td >{{country.name}}</td>
+                        <td >{{hobbies.name}}</td>
+                        <td>
+                            <img [src]="getImagePath(hobbies.icon)">
+                        </td>
+                        <td>
+                            <img [src]="getImagePath(hobbies.icons_selected)">
+                        </td>
                         <td >
                                  <span class="cus-switch">
                                     <label class="switch m-b-0">
-                                        <input type="checkbox" [(ngModel)]="country.status" [ngModelOptions]="{standalone: true}" (change)="onChange(country)">
+                                        <input type="checkbox" [(ngModel)]="hobbies.status" [ngModelOptions]="{standalone: true}" (change)="onChange(hobbies)">
                                         <span class="slider round"></span>
                                     </label>
                                 </span>
                         </td>
                         <td >
-                            <a  href="javascript:void(0)" (click)="onEdit(country)" class="fa fa-pencil-square-o fa-lg user-button" ></a>
-                            <a  href="javascript:void(0)" (click)="opendelete(country)" class="fa fa-trash fa-lg user-button" ></a>
+                            <a  href="javascript:void(0)" (click)="onEdit(hobbies)" class="fa fa-pencil-square-o fa-lg user-button" ></a>
+                            <a  href="javascript:void(0)" (click)="opendelete(hobbies)" class="fa fa-trash fa-lg user-button" ></a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-                <mat-paginator *ngIf="CountyList" #pager [length]="CountyList.length"
+                <mat-paginator *ngIf="HobbiesList" #pager [length]="HobbiesList.length"
                                   [pageSize]="pageSize"
                                   [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageoption($event)">
                 </mat-paginator>
