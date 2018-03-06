@@ -1,0 +1,48 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Contact Us'" ></app-page-header>
+
+    <div class="row">
+    	<div class="contn-class">
+                <div class="card-header">Queries </div>
+                <table class="card-body table" >
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        <th>Issue</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let contact of contactUsList ;let i=index" >
+                        <th scope="row">{{i+1}}</th>
+                        <td >{{contact.senderDetails.name}}</td>
+                        <td >{{contact.senderDetails.email}}</td>
+                        <td >{{contact.subject}}</td>
+                        <td >{{contact.message}}</td>
+                        <!-- <td >
+                             <span class="cus-switch">
+                                <label class="switch m-b-0">
+                                    <input type="checkbox" >
+                                    <span class="slider round">	
+                                    </span>
+                                </label>
+                             </span>
+                        </td>         -->                
+                        <td >
+                        <a  href="javascript:void(0)" (click)="open(contact)" class="fa fa-reply"  title="Reply" ></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+                <!-- <mat-paginator *ngIf="contactUsList" #pager [length]="contactUsList.length"
+                                  [pageSize]="pageSize"
+                                  [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageoption($event)">
+                </mat-paginator> -->
+    </div>
+
+</div>
+

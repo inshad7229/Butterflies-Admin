@@ -52,10 +52,11 @@ export class CitiesComponent implements OnInit {
     this.adminService.CountriesList()
      forkJoin([this.adminService.CountriesList(), this.adminService.CityList()])
         .subscribe(data=>{
-            if(data[0].response && data[1].response){;
-              this.CountyList=data[0].result.filter(arg=>arg.status == true)
+          console.log(data)
+            if(data[0].response ){;
+              this.CountyList=data[0].result.filter(arg=>arg.status == 1)
               this.CityList=data[1].result
-              this.toastr.success('Country List' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('Country List and City List' ,'Success',{toastLife: 2000, showCloseButton: true});
               //this.sortedData=data.result 
              if (this.CityList.length>5){
                   this.pageSize=5
@@ -89,7 +90,8 @@ export class CitiesComponent implements OnInit {
     this.sortedData = data.sort((a, b) => {
       let isAsc = sort.direction == 'asc';
       switch (sort.active) {
-        case 'name': return compare(a.name.trim(), b.name.trim(), isAsc);
+        case 'country_name': return compare(a.Country.name.trim(), b.Country.name.trim(), isAsc);
+        case 'city_name': return compare(a.city_name, b.city_name, isAsc);
         case 'status': return compare(a.status, b.status, isAsc);
         default: return 0;
       }
@@ -125,7 +127,7 @@ onSubmit(){
         .subscribe(data=>{
             if(data.response){;
               let index=this.CityList.map(function (img) { return img.id; }).indexOf(this.datamodel.id)
-              this.toastr.success('Country Edited' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('City Edited' ,'Success',{toastLife: 2000, showCloseButton: true});
               this.onGetList()
               this.datamodel.country_id=null
               this.verifiactionForm.reset();
@@ -140,7 +142,7 @@ onSubmit(){
              this.onGetList()
              this.datamodel.country_id=null
              this.verifiactionForm.reset();
-              this.toastr.success('Country Added Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('City Added Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
 
             }else{
                this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true}); 
@@ -153,7 +155,7 @@ this.adminService.oneditCityStatus(data)
         .subscribe(data=>{
             if(data.response){;
             // this.onGetList()
-              this.toastr.success('Country updated Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('City updated Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
 
             }else{
                this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true}); 
@@ -166,7 +168,7 @@ onDelete(id){
         .subscribe(data=>{
             if(data.response){;
               this.CityList=this.CityList.filter(arg=>arg.id!=id)
-              this.toastr.success('Country deleted' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('City deleted' ,'Success',{toastLife: 2000, showCloseButton: true});
               this.users=[]
              if (this.CityList.length>5){
                   this.pageSize=5

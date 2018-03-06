@@ -14,7 +14,7 @@ export interface Environment {
 
 export const LOCAL: Environment = {
     mainApi: 'http://127.0.0.1:3002',
-    imgApi:'http://13.58.136.175/dealiver-rest-apis/public/img/profile_imgs/',
+    imgApi:'http://13.58.136.175/public/img/profile_imgs/',
     img:'http://13.58.136.175/dealiver-rest-apis/public/img/deals_images/',
     dealDoc:'http://13.58.136.175/dealiver-rest-apis/public/img/deals_attachments/',
     timeout: HTTP_TIMEOUT,
@@ -25,9 +25,9 @@ export const LOCAL: Environment = {
 // http://13.58.136.175/dealiver-admin-apis/www/images/
 export const DEV: Environment = {
     mainApi: 'http://18.221.208.210:3003/',
-    imgApi:'http://18.221.208.210/dealiver-rest-apis/public/img/profile_imgs/',
-    img:'http://18.221.208.210/dealiver-rest-apis/public/img/deals_images/',
-    dealDoc:'http://18.221.208.210/dealiver-rest-apis/public/img/deals_attachments/',
+    imgApi:'http://18.221.208.210/public/butterflies/',
+    img:'http://18.221.208.210/public/butterflies/',
+    dealDoc:'http://18.221.208.210/public/butterflies/',
     timeout: HTTP_TIMEOUT,
     debug: true,
     bypass: false,
@@ -37,14 +37,14 @@ export const DEV: Environment = {
 
 
 export const PROD: Environment = {
-    mainApi: 'http://18.221.208.210:3003/',
-    imgApi:'http://18.221.208.210/dealiver-rest-apis/public/img/profile_imgs/',
-    img:'http://18.221.208.210/public/butterflies/',
-    dealDoc:'http://18.221.208.210/public/butterflies/',
+    mainApi: 'http://18.219.125.253:3003/',    
+    imgApi:'http://18.219.125.253/public/butterflies/',
+    img:'http://18.219.125.253/public/butterflies/',
+    dealDoc:'http://18.219.125.253/public/butterflies/',
     timeout: HTTP_TIMEOUT,
     debug: false,
     bypass: false,
     angularProd: false
 };
 
-export const ENV: Environment = PROD;
+export const ENV: Environment = DEV;

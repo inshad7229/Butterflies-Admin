@@ -1,27 +1,33 @@
 <div class="login-page" [@routerTransition]>
     <div class="row justify-content-md-center">
         <div class="col-md-4">
-            <img class="user-avatar" src="assets/images/logo.png" width="150px" />
-            <h1>SB Admin BS4 Angular5</h1>
+            <img class="user-avatar" src="assets/images/logo-1024.png" width="150px" />
+            <h1>Butterflies Admin</h1>
             <form role="form">
                 <div class="form-content">
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <input type="text" class="form-control input-underline input-lg" id="" placeholder="Full Name">
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
-                        <input type="text" class="form-control input-underline input-lg" id="" placeholder="Email">
+                        <input type="text" [(ngModel)]="email" class="form-control input-underline input-lg" id="" name="email" placeholder="Email"
+                        [formControl]="complexForm.controls['email']"  >
+                        <p style="color: #FF0000"  *ngIf="!complexForm.controls['email'].valid  && ( complexForm.controls['email'].touched)" >Please provide valid Email ID </p>
+                        <p><b>{{message}}</b></p>
                     </div>
 
-                    <div class="form-group">
+                  <!--   <div class="form-group">
                         <input type="password" class="form-control input-underline input-lg" id="" placeholder="Password">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control input-underline input-lg" id="" placeholder="Repeat Password">
-                    </div>
+                    </div> -->
                 </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']"> Register </a>&nbsp;
-                <a class="btn rounded-btn" [routerLink]="['/login']"> Log in </a>
+                <!-- <a class="btn rounded-btn"  (click)="adminForgotPass()" >Submit </a>&nbsp; -->
+                 <button  class="btn rounded-btn" 
+                [disabled]="!complexForm.valid" (click)="adminForgotPass()">
+                    <span>Submit</span>
+                </button>
             </form>
         </div>
     </div>

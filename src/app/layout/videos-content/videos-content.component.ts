@@ -39,14 +39,17 @@ verifiactionForm:FormGroup
     this.toastr.setRootViewContainerRef(vcr);
     this.datamodel={}
     this.verifiactionForm = fb.group({
-                'countryName': [null, Validators.compose([Validators.required,Validators.maxLength(100)])],
+                'countryName': [null, Validators.compose([Validators.required,Validators.maxLength(500)])],
             
         }) }
 
   ngOnInit() {
+    this.verifiactionForm.disable();
     this.onGetList()    
   }
   onGetList(){
+    this.datamodel={}
+    this.users=[]
     this.adminService.videoContentList()
         .subscribe(data=>{
             if(data.response){;
@@ -85,7 +88,7 @@ verifiactionForm:FormGroup
     this.sortedData = data.sort((a, b) => {
       let isAsc = sort.direction == 'asc';
       switch (sort.active) {
-        case 'name': return compare(a.name.trim(), b.name.trim(), isAsc);
+        case 'name': return compare(a.content.trim(), b.content.trim(), isAsc);
         case 'status': return compare(a.status, b.status, isAsc);
         default: return 0;
       }
@@ -109,44 +112,39 @@ verifiactionForm:FormGroup
 }
 
 onEdit(country){
+  this.verifiactionForm.enable();
   this.datamodel=Object.assign({}, country)
 }
 onReset(){
   this.datamodel={}
 }
 onSubmit(){
+  console.log("submit button clicked")
   if (this.datamodel.id) {
-      this.adminService.oneditCountry(this.datamodel)
+      this.adminService.editVideosContent(this.datamodel)
         .subscribe(data=>{
-            if(data.response){;
-              let index=this.VideoContentList.map(function (img) { return img.id; }).indexOf(this.datamodel.id)
-              this.toastr.success('Country Edited' ,'Success',{toastLife: 2000, showCloseButton: true});
-              this.VideoContentList[index].name=this.datamodel.name;
-             if (this.VideoContentList.length>5){
-                  this.pageSize=5
-                }else{
-                  this.pageSize=this.VideoContentList.length  
-                }
-                for (var i = this.pageIndex*this.pageSize; i<(this.pageIndex*this.pageSize+this.pageSize); i++) {
-                 this.users.push(this.VideoContentList[i])
-                 this.sortedData = this.users.slice();
+            if(data.response){
+              this.onGetList()
 
-                }
+             //  let index=this.VideoContentList.map(function (img) { return img.id; }).indexOf(this.datamodel.id)
+             //  this.toastr.success('Country Edited' ,'Success',{toastLife: 2000, showCloseButton: true});
+             //  this.VideoContentList[index].name=this.datamodel.name;
+             // if (this.VideoContentList.length>5){
+             //      this.pageSize=5
+             //    }else{
+             //      this.pageSize=this.VideoContentList.length  
+             //    }
+             //    for (var i = this.pageIndex*this.pageSize; i<(this.pageIndex*this.pageSize+this.pageSize); i++) {
+             //     this.users.push(this.VideoContentList[i])
+             //     this.sortedData = this.users.slice();
+
+             //    }
             }else{
               this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true});  
             }
         })
   }else{
-      this.adminService.onAddCountry(this.datamodel)
-        .subscribe(data=>{
-            if(data.response){;
-             this.onGetList()
-              this.toastr.success('Country Added Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
-
-            }else{
-               this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true}); 
-            }
-        })
+      
   }
 }
 onChange(data){

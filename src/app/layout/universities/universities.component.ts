@@ -70,7 +70,7 @@ export class UniversitiesComponent implements OnInit {
                 }
             }else if(data[0].response && !data[1].response){
                this.CountyList=data[0].result.filter(arg=>arg.status == true)
-              this.toastr.success('Countries List' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('University List' ,'Success',{toastLife: 2000, showCloseButton: true});
             }else{
               this.toastr.error(data[0].message+',and '+data[1].message ,'Error',{toastLife: 2000, showCloseButton: true});    
             }
@@ -93,7 +93,8 @@ export class UniversitiesComponent implements OnInit {
     this.sortedData = data.sort((a, b) => {
       let isAsc = sort.direction == 'asc';
       switch (sort.active) {
-        case 'name': return compare(a.name.trim(), b.name.trim(), isAsc);
+        case 'country_name': return compare(a.Country.name.trim(), b.Country.name.trim(), isAsc);
+        case 'university_name': return compare(a.university_name.trim(), b.university_name.trim(), isAsc);
         case 'status': return compare(a.status, b.status, isAsc);
         default: return 0;
       }
@@ -157,7 +158,7 @@ this.adminService.oneditUniversityStatus(data)
         .subscribe(data=>{
             if(data.response){;
             // this.onGetList()
-              this.toastr.success('Country updated Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('University updated Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
 
             }else{
                this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true}); 
@@ -170,7 +171,7 @@ onDelete(id){
         .subscribe(data=>{
             if(data.response){;
               this.UniversityList=this.UniversityList.filter(arg=>arg.id!=id)
-              this.toastr.success('Country deleted' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('University deleted' ,'Success',{toastLife: 2000, showCloseButton: true});
               this.users=[]
               this.sortedData=this.sortedData.filter(arg=>arg.id!=id)
              if (this.UniversityList.length>5){

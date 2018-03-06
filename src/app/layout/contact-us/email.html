@@ -1,0 +1,34 @@
+<div class="modal-header">
+	<h4 class="modal-title" >Send Email <span class="pull-right"><a (click)="onNoClick()"><i class="fa fa-times"></i></a></span></h4>
+</div>
+<div class="modal-body">
+	<label style="float: left;width: 49%">User :</label>
+	<label style="float: left;width: 49%"><b>{{data.senderDetails.name}}</b></label>
+	<label style="float: left;width: 49%">Email :</label>
+	<label style="float: left;width: 49%"><b>{{data.senderDetails.email}}</b></label>
+	<label style="float: left;width: 49%">Subject :</label>
+	<label style="float: left;width: 49%"><b>{{data.subject}}</b></label>
+	<label style="float: left;width: 49%">Issue :</label>
+	<label style="float: left;width: 49%"><b>{{data.message}}</b></label>
+	<div style="text-align: center;color: rgb(119,136,153);" >
+		<p >Send Email </p>
+	</div>
+	 <form role="form" [formGroup]="verifiactionForm">
+	<!-- <label style="float: left;width: 20%;color: rgb(119,136,153);">Email Subject :-</label>
+	<input style="float: left;width: 79%" type="text" class="form-control form-control-success" id="inputSuccess"> -->
+	<label style="float: left;width: 20%;color: rgb(119,136,153);">Email Body :-</label>
+	<textarea style=" margin-top: 5px; float: left;width: 79%" type="text" class="form-control form-control-success" id="inputSuccess" rows="2" cols="2" [formControl]="verifiactionForm.controls['reply']"  [(ngModel)]="reply" ></textarea> 
+	 <p  *ngIf="verifiactionForm.controls['reply'].hasError('required') && verifiactionForm.controls['reply'].touched">
+                    Reply is <strong>required</strong>
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['reply'].hasError('pattern')">
+                               Please enter validReply !!
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['reply'].hasError('maxlength')">
+                               max length is 1000
+                    </p>
+	<div  >
+		<button [disabled]="!verifiactionForm.valid" class="btn cut-btn" type="button" style="margin-top: 10px; width: 30% ;" (click)="sendEmail()">Send</button>
+	</div>
+</form>
+</div>

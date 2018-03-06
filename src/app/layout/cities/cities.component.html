@@ -6,6 +6,7 @@
             	 <div class="form-group">
                     <label>Country</label>
                     <select class="form-control"  [formControl]="verifiactionForm.controls['country_id']" [(ngModel)]="datamodel.country_id" >
+                        <option disabled="">-----Choose Country-----</option>
                         <option *ngFor="let country of CountyList" [value]="country.id">{{country.name}}</option>
                     </select>
                      <p  *ngIf="verifiactionForm.controls['country_id'].hasError('required') && verifiactionForm.controls['country_id'].touched">
@@ -25,8 +26,10 @@
                                max length is 100
                     </p>
 				</div>
-		            <button type="submit" class="btn btn-secondary" [disabled]="!verifiactionForm.valid" (click)="onSubmit()">Submit</button>
-		             <button type="reset" class="btn btn-secondary" (click)="onReset()">Reset Button</button>
+		            <button type="submit" class="btn btn-secondary" 
+                    [disabled]="!verifiactionForm.valid" (click)="onSubmit()">Submit</button>
+		            
+                    <button type="reset" class="btn btn-secondary" (click)="onReset()">Reset Button</button>
             </form>
         </div>
     </div>

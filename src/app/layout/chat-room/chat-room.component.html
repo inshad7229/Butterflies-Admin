@@ -1,0 +1,55 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Users'" [icon]="'fa-edit'"></app-page-header>
+    <div class="row">
+        <div class="contn-class">
+                      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="collapse navbar-collapse">
+                        <div class="mr-auto">
+                            <span>Users List
+                            </span>
+                        </div>
+                        <form class="form-inline my-2 my-lg-0 right">
+                            <div class="form-inline my-2 my-lg-0 right">
+                                <input (input)="searchUser(pager)" [(ngModel)]="searchInput" name='searchInput' class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                                <!-- <button class="btn btn-outline-success my-2 my-sm-0" >Search</button> -->
+                            </div>
+                        </form>
+                    </div>
+                </nav>
+                <table class="card-body table" matSort (matSortChange)="sortData($event)" *ngIf="sortedData">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th mat-sort-header="name">Room ID</th>
+                        <th mat-sort-header="email">Name</th>
+                        <th mat-sort-header="contact">Contact</th>
+                        <th mat-sort-header="register">Age</th>
+                        <th mat-sort-header="gender">Gender</th>
+                        <th mat-sort-header="vegetarian">Unread Message Count</th>
+                      <!--   <th mat-sort-header="status"></th> -->
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let user of sortedData ;let i=index">
+                        <th scope="row">{{i+1}}</th>
+                        <td >{{user.room_id}}</td>
+                        <td >{{user.userDetails.name}}</td>
+                        <td >{{user.userDetails.contact_no}}</td>
+                        <td >{{user.userDetails.age}}</td>
+                        <td >{{user.userDetails.gender}}</td>
+                        <td >{{user.vegetarian}}</td>
+                        <td >
+                            <a  href="javascript:void(0)" routerLink="/chat" class="fa fa-comment fa-lg user-button" ></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+                <mat-paginator  #pager   [length]="AllUsersList.length"
+                                  [pageSize]="pageSize"
+                                  [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageoption($event)">
+                </mat-paginator>
+    </div>
+    <!-- /.row -->
+</div>

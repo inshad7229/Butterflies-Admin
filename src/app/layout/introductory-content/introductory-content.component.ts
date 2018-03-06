@@ -39,14 +39,18 @@ verifiactionForm:FormGroup
     this.toastr.setRootViewContainerRef(vcr);
     this.datamodel={}
     this.verifiactionForm = fb.group({
-                'countryName': [null, Validators.compose([Validators.required,Validators.maxLength(100)])],
+                'title': [null, Validators.compose([Validators.required,Validators.maxLength(100)])],
+                'description': [null, Validators.compose([Validators.required,Validators.maxLength(500)])],
             
         }) }
 
   ngOnInit() {
+    this.verifiactionForm.disable();
     this.onGetList()    
   }
   onGetList(){
+    this.datamodel={}
+    this.users=[]
     this.adminService.introductoryList()
         .subscribe(data=>{
             if(data.response){;
@@ -85,8 +89,8 @@ verifiactionForm:FormGroup
     this.sortedData = data.sort((a, b) => {
       let isAsc = sort.direction == 'asc';
       switch (sort.active) {
-        case 'name': return compare(a.name.trim(), b.name.trim(), isAsc);
-        case 'status': return compare(a.status, b.status, isAsc);
+        case 'title': return compare(a.title.trim(), b.title.trim(), isAsc);
+        case 'descriptions': return compare(a.description.trim(), b.description.trim(), isAsc);
         default: return 0;
       }
     });
@@ -109,6 +113,7 @@ verifiactionForm:FormGroup
 }
 
 onEdit(country){
+  this.verifiactionForm.enable();
   this.datamodel=Object.assign({}, country)
 }
 onReset(){
@@ -116,38 +121,40 @@ onReset(){
 }
 onSubmit(){
   if (this.datamodel.id) {
-      this.adminService.oneditCountry(this.datamodel)
+      this.adminService.editintroductoryContent(this.datamodel)
         .subscribe(data=>{
             if(data.response){;
-              let index=this.IntroductoryList.map(function (img) { return img.id; }).indexOf(this.datamodel.id)
-              this.toastr.success('Country Edited' ,'Success',{toastLife: 2000, showCloseButton: true});
-              this.IntroductoryList[index].name=this.datamodel.name;
-             if (this.IntroductoryList.length>5){
-                  this.pageSize=5
-                }else{
-                  this.pageSize=this.IntroductoryList.length  
-                }
-                for (var i = this.pageIndex*this.pageSize; i<(this.pageIndex*this.pageSize+this.pageSize); i++) {
-                 this.users.push(this.IntroductoryList[i])
-                 this.sortedData = this.users.slice();
+             //  let index=this.IntroductoryList.map(function (img) { return img.id; }).indexOf(this.datamodel.id)
+             //  this.toastr.success('Country Edited' ,'Success',{toastLife: 2000, showCloseButton: true});
+             //  this.IntroductoryList[index].name=this.datamodel.name;
+             // if (this.IntroductoryList.length>5){
+             //      this.pageSize=5
+             //    }else{
+             //      this.pageSize=this.IntroductoryList.length  
+             //    }
+             //    for (var i = this.pageIndex*this.pageSize; i<(this.pageIndex*this.pageSize+this.pageSize); i++) {
+             //     this.users.push(this.IntroductoryList[i])
+             //     this.sortedData = this.users.slice();
 
-                }
+             //    }
+             this.onGetList()
             }else{
               this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true});  
             }
         })
-  }else{
-      this.adminService.onAddCountry(this.datamodel)
-        .subscribe(data=>{
-            if(data.response){;
-             this.onGetList()
-              this.toastr.success('Country Added Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
-
-            }else{
-               this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true}); 
-            }
-        })
   }
+  // else{
+  //     this.adminService.onAddCountry(this.datamodel)
+  //       .subscribe(data=>{
+  //           if(data.response){;
+  //            this.onGetList()
+  //             this.toastr.success('Country Added Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
+
+  //           }else{
+  //              this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true}); 
+  //           }
+  //       })
+  // }
 }
 onChange(data){
 this.adminService.oneditCountryStatus(data)

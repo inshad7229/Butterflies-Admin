@@ -1,22 +1,36 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Cities'" [icon]="'fa-edit'"></app-page-header>
+    <app-page-header [heading]="'Introductory'" [icon]="'fa-edit'"></app-page-header>
     <div class="row">
         <div class="col-lg-12">
-            <form role="form" [formGroup]="verifiactionForm">
-                <div class="form-group has-success">
-                    <label class="form-control-label" for="inputSuccess">Country Name</label>
-                    <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['countryName']" [(ngModel)]="datamodel.name">
-                    <p  *ngIf="verifiactionForm.controls['countryName'].hasError('required') && verifiactionForm.controls['countryName'].touched">
-                     City Name is <strong>required</strong>
+            <form role="form" [formGroup]="verifiactionForm" >
+                 <div class="form-group has-success">
+                    <label class="form-control-label" for="inputSuccess">Title</label>
+                    <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['title']" [(ngModel)]="datamodel.title" >
+                    <p  *ngIf="verifiactionForm.controls['title'].hasError('required') && verifiactionForm.controls['title'].touched">
+                     Title is <strong>required</strong>
                     </p>
-                    <p  *ngIf="verifiactionForm.controls['countryName'].hasError('pattern')">
-                               Please enter valid City Name !!
+                    <p  *ngIf="verifiactionForm.controls['title'].hasError('pattern')">
+                               Please enter valid Title !!
                     </p>
-                    <p  *ngIf="verifiactionForm.controls['countryName'].hasError('maxlength')">
+                    <p  *ngIf="verifiactionForm.controls['title'].hasError('maxlength')">
                                max length is 100
                     </p>
                 </div>
-                    <button type="submit" class="btn btn-secondary" [disabled]="!verifiactionForm.valid" (click)="onSubmit()">Submit</button>
+                <div class="form-group has-success">
+                    <label class="form-control-label" for="inputSuccess">Description</label>
+                    <textarea type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['description']" [(ngModel)]="datamodel.description"></textarea>
+                    <p  *ngIf="verifiactionForm.controls['description'].hasError('required') && verifiactionForm.controls['description'].touched">
+                     Description  is <strong>required</strong>
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['description'].hasError('pattern')">
+                               Please enter valid Description !!
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['description'].hasError('maxlength')">
+                               max length is 500
+                    </p>
+                </div>
+                    <button type="submit" class="btn btn-secondary" 
+                    [disabled]="!verifiactionForm.valid" (click)="onSubmit()">Submit</button>
                      <button type="reset" class="btn btn-secondary" (click)="onReset()">Reset Button</button>
             </form>
         </div>
@@ -28,8 +42,8 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th  mat-sort-header="name">Title </th>
-                        <th  mat-sort-header="status">Description</th>
+                        <th  mat-sort-header="title">Title </th>
+                        <th  mat-sort-header="descriptions">Description</th>
                         <th>Action</th>
                     </tr>
                     </thead>

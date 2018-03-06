@@ -1,23 +1,54 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Cities'" [icon]="'fa-edit'"></app-page-header>
+    <app-page-header [heading]="'Hobbies'" [icon]="'fa-edit'"></app-page-header>
     <div class="row">
         <div class="col-lg-12">
             <form role="form" [formGroup]="verifiactionForm">
                 <div class="form-group has-success">
-                    <label class="form-control-label" for="inputSuccess">Country Name</label>
+                    <label class="form-control-label" for="inputSuccess">Icon Name</label>
                     <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['countryName']" [(ngModel)]="datamodel.name">
                     <p  *ngIf="verifiactionForm.controls['countryName'].hasError('required') && verifiactionForm.controls['countryName'].touched">
-                     City Name is <strong>required</strong>
+                     Icon Name is <strong>required</strong>
                     </p>
                     <p  *ngIf="verifiactionForm.controls['countryName'].hasError('pattern')">
-                               Please enter valid City Name !!
+                               Please enter valid Icon Name !!
                     </p>
                     <p  *ngIf="verifiactionForm.controls['countryName'].hasError('maxlength')">
                                max length is 100
                     </p>
                 </div>
-                    <button type="submit" class="btn btn-secondary" [disabled]="!verifiactionForm.valid" (click)="onSubmit()">Submit</button>
-                     <button type="reset" class="btn btn-secondary" (click)="onReset()">Reset Button</button>
+                <div  style="width: 100%">
+                    <div class="col-md-3 col-sm-3 col-xs-12 float-left">
+                        <div  class="wrap-div cuatom-img">
+                            <img  *ngIf="!datamodel.icon" src="http://placehold.it/100x100" class="img-responsive">
+                            <img  *ngIf="datamodel.icon" [src]="getImagePath(datamodel.icon)" class="img-responsive">
+                            <span class="upload-img">
+                            <button  *ngIf="!datamodel.icon" class="btn cut-btn" type="button"  (click)="unselected.click()">upload Unselected Icon</button>
+                             <button  *ngIf="datamodel.icon" class="btn cut-btn" type="button" (click)="unselected.click()">Update Unselected Icon</button>
+                            <input class="profile-btn cut-btn" name="image" type="file" #unselected (change)="onunselectedImageUpload($event,i)" >
+                            </span>
+                            <span id="cross-btn" class="fa fa-remove" (click)="onRemoveImageunselected()"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12 float-left">
+                        <div  class="wrap-div cuatom-img">
+                            <img  *ngIf="!datamodel.icons_selected" src="http://placehold.it/100x100" class="img-responsive">
+                            <img  *ngIf="datamodel.icons_selected" [src]="getImagePath(datamodel.icons_selected)" class="img-responsive">
+                            <span class="upload-img">
+                            <button  *ngIf="!datamodel.icons_selected" class="btn cut-btn" type="button" (click)="selected.click()" >upload Selected Icon</button>
+                             <button  *ngIf="datamodel.icons_selected" class="btn cut-btn" type="button" (click)="selected.click()" >Update Selected Icon</button>
+                            <input class="profile-btn cut-btn" name="image" type="file" #selected (change)="onselectedImageUpload($event,i)" >
+                            </span>
+                            <span id="cross-btn" class="fa fa-remove" (click)="onRemoveImageselected()"></span>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%">
+                    <div class="col-md-12 col-sm-12 col-xs-12 float-left">
+                        <button type="submit" class="btn btn-secondary" [disabled]="!verifiactionForm.valid || !datamodel.icons_selected || !datamodel.icon" (click)="onSubmit()">Submit</button>
+                        <button type="reset" class="btn btn-secondary" (click)="onReset()">Reset Button</button>
+                    </div>
+                    
+                </div>
             </form>
         </div>
     </div>

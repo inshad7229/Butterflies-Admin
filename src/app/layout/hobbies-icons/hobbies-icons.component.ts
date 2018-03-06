@@ -32,6 +32,8 @@ export class HobbiesIconsComponent implements OnInit {
   pageEvent: PageEvent;
   datamodel
   editStatus:boolean=false
+  icon
+  icons_selected
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {
     this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
@@ -49,6 +51,8 @@ export class HobbiesIconsComponent implements OnInit {
     this.onGetList()    
   }
   onGetList(){
+     this.datamodel={}
+      this.users=[]
     this.adminService.HobbiesList()
         .subscribe(data=>{
             if(data.response){;
@@ -115,35 +119,38 @@ onEdit(country){
 }
 onReset(){
   this.datamodel={}
+  this.datamodel.icons_selected=''
+   this.datamodel.icon=''
 }
 onSubmit(){
   if (this.datamodel.id) {
-      this.adminService.oneditCountry(this.datamodel)
+      this.adminService.updateHobbies(this.datamodel)
         .subscribe(data=>{
             if(data.response){;
-              let index=this.HobbiesList.map(function (img) { return img.id; }).indexOf(this.datamodel.id)
-              this.toastr.success('Country Edited' ,'Success',{toastLife: 2000, showCloseButton: true});
-              this.HobbiesList[index].name=this.datamodel.name;
-             if (this.HobbiesList.length>5){
-                  this.pageSize=5
-                }else{
-                  this.pageSize=this.HobbiesList.length  
-                }
-                for (var i = this.pageIndex*this.pageSize; i<(this.pageIndex*this.pageSize+this.pageSize); i++) {
-                 this.users.push(this.HobbiesList[i])
-                 this.sortedData = this.users.slice();
+             //  let index=this.HobbiesList.map(function (img) { return img.id; }).indexOf(this.datamodel.id)
+             //  this.toastr.success('Hobbies Edited' ,'Success',{toastLife: 2000, showCloseButton: true});
+             //  this.HobbiesList[index].name=this.datamodel.name;
+             // if (this.HobbiesList.length>5){
+             //      this.pageSize=5
+             //    }else{
+             //      this.pageSize=this.HobbiesList.length  
+             //    }
+             //    for (var i = this.pageIndex*this.pageSize; i<(this.pageIndex*this.pageSize+this.pageSize); i++) {
+             //     this.users.push(this.HobbiesList[i])
+             //     this.sortedData = this.users.slice();
 
-                }
+             //    }
+             this.onGetList()
             }else{
               this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true});  
             }
         })
   }else{
-      this.adminService.onAddCountry(this.datamodel)
+      this.adminService.addHobbies(this.datamodel)
         .subscribe(data=>{
             if(data.response){;
              this.onGetList()
-              this.toastr.success('Country Added Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('Hobbies Added Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
 
             }else{
                this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true}); 
@@ -152,11 +159,11 @@ onSubmit(){
   }
 }
 onChange(data){
-this.adminService.oneditCountryStatus(data)
+this.adminService.updateHobbiesStatus(data)
         .subscribe(data=>{
             if(data.response){;
             // this.onGetList()
-              this.toastr.success('Country updated Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('Hobbies updated Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
 
             }else{
                this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true}); 
@@ -165,11 +172,11 @@ this.adminService.oneditCountryStatus(data)
 }
 //this.customersList.map(function (img) { return img.customer_id; }).indexOf(this.appointMents[i].customer_id)==-1
 onDelete(id){
-    this.adminService.oneDeleteCountry(id)
+    this.adminService.oneDeleteHobbies(id)
         .subscribe(data=>{
             if(data.response){;
               this.HobbiesList=this.HobbiesList.filter(arg=>arg.id!=id)
-              this.toastr.success('Country deleted' ,'Success',{toastLife: 2000, showCloseButton: true});
+              this.toastr.success('Hobbies deleted' ,'Success',{toastLife: 2000, showCloseButton: true});
               this.users=[]
              if (this.HobbiesList.length>5){
                   this.pageSize=5
@@ -201,8 +208,72 @@ opendelete(data): void {
     }
 
  getImagePath(path){
-  return ENV.img+'hobbies_icons/'+path
+   if (path.indexOf('base64')==-1) {
+      return ENV.img+'hobbies_icons/'+path
+     // code...
+   }else{
+     return path
+   }
  }
+
+   onunselectedImageUpload(evt: any,i){
+     if (!evt.target) {
+            return;
+        }
+        if (!evt.target.files) {
+            return;
+        }
+        if (evt.target.files.length !== 1) {
+            return;
+        }
+        const file = evt.target.files[0];
+        if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif' && file.type !== 'image/jpg') {
+            return;
+        }
+        const fr = new FileReader();
+        fr.onloadend = (loadEvent) => {
+            //this.saloonImage[i].image= fr.result;
+            this.datamodel.icon=fr.result
+            //console.log(this.saloonImage[i].image)
+            
+        };
+        fr.readAsDataURL(file);
+    
+}
+
+
+  onselectedImageUpload(evt: any,i){
+     if (!evt.target) {
+            return;
+        }
+        if (!evt.target.files) {
+            return;
+        }
+        if (evt.target.files.length !== 1) {
+            return;
+        }
+        const file = evt.target.files[0];
+        if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif' && file.type !== 'image/jpg') {
+            return;
+        }
+        const fr = new FileReader();
+        fr.onloadend = (loadEvent) => {
+            //this.saloonImage[i].image= fr.result;
+            this.datamodel.icons_selected=fr.result
+            //console.log(this.saloonImage[i].image)
+            
+        };
+        fr.readAsDataURL(file);
+    
+}
+
+onRemoveImageunselected(){
+   this.datamodel.icon=''
+}
+onRemoveImageselected(){
+  this.datamodel.icons_selected=''
+}
+
 }
 
 

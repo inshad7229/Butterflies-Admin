@@ -39,6 +39,8 @@ export class CountriesComponent implements OnInit {
     this.datamodel={}
     this.verifiactionForm = fb.group({
                 'countryName': [null, Validators.compose([Validators.required,Validators.maxLength(100)])],
+                'country_order': [null, Validators.compose([Validators.required,Validators.min(1)])],
+            
             
         }) }
 
@@ -85,6 +87,7 @@ export class CountriesComponent implements OnInit {
       let isAsc = sort.direction == 'asc';
       switch (sort.active) {
         case 'name': return compare(a.name.trim(), b.name.trim(), isAsc);
+        case 'order': return compare(a.country_order, b.country_order, isAsc);
         case 'status': return compare(a.status, b.status, isAsc);
         default: return 0;
       }
@@ -114,12 +117,14 @@ onReset(){
   this.datamodel={}
 }
 onSubmit(){
+  console.log(this.datamodel)
   if (this.datamodel.id) {
       this.adminService.oneditCountry(this.datamodel)
-        .subscribe(data=>{
-            if(data.response){;
+        .subscribe(data=>{          
+            if(data.response){;           
               let index=this.CountyList.map(function (img) { return img.id; }).indexOf(this.datamodel.id)
               this.toastr.success('Country Edited' ,'Success',{toastLife: 2000, showCloseButton: true});
+              //this.ngOnInit()
               this.CountyList[index].name=this.datamodel.name;
              if (this.CountyList.length>5){
                   this.pageSize=5
@@ -137,9 +142,9 @@ onSubmit(){
         })
   }else{
       this.adminService.onAddCountry(this.datamodel)
-        .subscribe(data=>{
+        .subscribe(data=>{;
             if(data.response){;
-             this.onGetList()
+             // this.ngOnInit()
               this.toastr.success('Country Added Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
 
             }else{

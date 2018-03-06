@@ -1,0 +1,169 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'User-Profile'" [icon]="'fa-table'"></app-page-header>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+        <!-- *ngIf="page=='userDetailEdit'"
+*ngIf="page=='userDetail'" -->
+            <div class="card mb-3" >
+                <div class="card-header">
+                    User's Detail
+                </div>
+                <div class="card-body table-responsive">
+                    <div class="profile-image">
+                        <img  width="400px" height="400px" alt="no_image.jpg"
+                        [src]="profile_image" class="img-thumbnail-profile" />
+                  
+                    </div>
+                    <fieldset>
+                        <div class="profile-data">
+                            <div class="table-responsive">
+                                <table class="card-body table" > 
+                                    <tbody >
+                                    	<tr >
+                                            <th style="border-right: 2px solid #eee">Name</th>
+                                            <td>{{userDetail.name}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Age</th>
+                                            <td>{{userDetail.age}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Email</th>
+                                            <td>{{userDetail.email}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Contact</th>
+                                            <td>{{userDetail.contact_no}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Register For</th>
+                                            <td>{{userDetail.register_for}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Height</th>
+                                            <td>{{userDetail.height}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Profession</th>
+                                            <td>{{userDetail.profession}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Languages</th>
+                                            <td>{{userDetail.language}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Gender</th>
+                                            <td>{{userDetail.gender}}</td>
+                                        </tr>
+                                        <!-- <tr >
+                                            <th style="border-right: 2px solid #eee">Religion</th>
+                                            <td>{{userDetail.religion}}</td>
+                                        </tr> -->
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">DOB</th>
+                                            <td>{{userDetail.dob}}</td>
+                                        </tr>
+
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">User Hobbies</th>
+                                            <td>
+                                            <span *ngFor="let hobby of userDetail.userHobbies">{{hobby.hobbies.name}}, </span> </td>
+                                        </tr>
+
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">University</th>
+                                            <td>{{userDetail.userUniversities.university_name}}</td>
+                                        </tr>
+
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">User Cities</th>
+                                            <td>{{userDetail.userCities.city_name}}</td>
+                                        </tr>    
+
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Country</th>
+                                            <td>{{userDetail.userCountries.name}}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                 <div class="profile-image" *ngFor="let image of userDetail.userImage">
+                        <img  width="400px" height="400px" alt="no_image.jpg"
+                        [src]="onImage(image)" class="img-thumbnail-profile" />
+                  
+                 </div>
+
+                 <video width="320" height="240" controls *ngFor="let video of userDetail.userVideo" >
+				  <source [src]="onvideo(video)" type="video/mp4">
+				  Your browser does not support the video tag.
+				</video>
+
+
+
+
+            <!-- </div>
+            <div class="card mb-3" *ngIf="page=='userDetailEdit'">
+                <div class="card-header">
+                    Edit User
+                </div>
+                <div class="card-body table-responsive">
+                <div class="profile-image">
+                    <img [hidden]="nonEditableStatus" width="400px" height="400px" alt="no_image.jpg" [src]="image" class="img-thumbnail-profile" (click)="file.click()" />
+                    <img [hidden]="!nonEditableStatus" width="400px" height="400px" class="img-thumbnail-profile" [src]="image" alt="no_image.jpg">
+                    <div style="display: none;"><input type="file" accept="image/*" #file id="uploadImage" (change)="onUploadImage($event)"></div>
+                </div>
+                <div class="profile-data">
+                    <form role="form" #profileForm="ngForm" novalidate>
+
+                    <fieldset [disabled]="nonEditableStatus">
+
+                        <div class="form-group">
+                            <label for="disabledSelect">First Name</label>
+                            <input class="form-control" type="text" placeholder="First Name" [disabled]="nonEditableStatus" #first_name="ngModel" name="first_name" [(ngModel)]="userData.first_name" required>
+                        </div>
+                        <p padding style="color:#D23839" [hidden]="nonEditableStatus || first_name.valid || !first_name.touched">First name required</p>
+
+                        <div class="form-group">
+                            <label for="disabledSelect">Last Name</label>
+                            <input class="form-control" type="text" placeholder="Last Name" [disabled]="nonEditableStatus" #last_name="ngModel" name="last_name" [(ngModel)]="userData.last_name" required>
+                        </div>
+                        <p padding style="color:#D23839" [hidden]="nonEditableStatus || last_name.valid || !last_name.touched">Last name required</p>
+
+                        <div class="form-group">
+                            <label for="disabledSelect">User Email</label>
+                            <input class="form-control" type="text" placeholder="User Email" disabled #email="ngModel" name="email" [(ngModel)]="userData.email" pattern="^[a-zA-Z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$" required>
+                        </div>
+                        <p padding style="color:#D23839" [hidden]="nonEditableStatus || email.valid || !email.touched">Email required</p>
+
+                        <div class="form-group">
+                            <label for="disabledSelect">User Type</label>
+                            <input class="form-control" type="text" placeholder="Phone Number" disabled #user_type="ngModel" name="user_type" [(ngModel)]="userData.user_type" required>
+                        </div>
+                        <p padding style="color:#D23839" [hidden]="nonEditableStatus || phone_no.valid || !phone_no.touched">Email required</p>
+
+                        <div class="form-group">
+                            <label for="disabledSelect">Phone Number</label>
+                            <input class="form-control" type="text" placeholder="Phone Number" [disabled]="nonEditableStatus" #phone_no="ngModel" name="phone_no" [(ngModel)]="userData.phone_no" required>
+                        </div>
+                        <p padding style="color:#D23839" [hidden]="nonEditableStatus || phone_no.valid || !phone_no.touched">Email required</p>
+
+                        <div class="form-group">
+                            <label for="disabledSelect">Address</label>
+                            <input class="form-control" type="text" placeholder="Address" [disabled]="nonEditableStatus" #address="ngModel" name="address" [(ngModel)]="userData.address" required>
+                        </div>
+                        <p padding style="color:#D23839" [hidden]="nonEditableStatus || address.valid || !address.touched">Email required</p>
+                    </fieldset>
+                        <button *ngIf="nonEditableStatus" type="submit" class="profile-page-button btn btn-primary" layout-align="center end" (click)="onEdit()">Edit</button>
+                        <button *ngIf="!nonEditableStatus" type="submit" class="profile-page-button btn btn-primary" (click)="submit()" [disabled]="profileForm.form.invalid">Submit</button>
+
+                </form>
+                </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>

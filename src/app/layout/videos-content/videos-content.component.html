@@ -1,19 +1,19 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Cities'" [icon]="'fa-edit'"></app-page-header>
+    <app-page-header [heading]="'Videos'" [icon]="'fa-edit'"></app-page-header>
     <div class="row">
         <div class="col-lg-12">
             <form role="form" [formGroup]="verifiactionForm">
                 <div class="form-group has-success">
-                    <label class="form-control-label" for="inputSuccess">Country Name</label>
-                    <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['countryName']" [(ngModel)]="datamodel.name">
+                    <label class="form-control-label" for="inputSuccess">Video content </label>
+                    <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['countryName']" [(ngModel)]="datamodel.content">
                     <p  *ngIf="verifiactionForm.controls['countryName'].hasError('required') && verifiactionForm.controls['countryName'].touched">
-                     City Name is <strong>required</strong>
+                     Video Content is <strong>required</strong>
                     </p>
                     <p  *ngIf="verifiactionForm.controls['countryName'].hasError('pattern')">
-                               Please enter valid City Name !!
+                               Please enter valid Video Name !!
                     </p>
                     <p  *ngIf="verifiactionForm.controls['countryName'].hasError('maxlength')">
-                               max length is 100
+                               max length is 500
                     </p>
                 </div>
                     <button type="submit" class="btn btn-secondary" [disabled]="!verifiactionForm.valid" (click)="onSubmit()">Submit</button>
@@ -28,7 +28,7 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th  mat-sort-header="name">Country Name</th>
+                        <th  mat-sort-header="name">Video Content</th>
                         <!-- <th  mat-sort-header="status">Status</th> -->
                         <th>Action</th>
                     </tr>
