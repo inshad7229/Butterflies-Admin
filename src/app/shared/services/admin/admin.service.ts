@@ -543,4 +543,51 @@ userDetailsAdmin(data): Observable<any> {
         
     );
   }
+
+    eventListAdmin(): Observable<any> {
+    const url = `${ENV.mainApi}eventListAdmin`;
+    return this.http.get<any>(url,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   eventListAdmin Test`)),
+          catchError(this.handleError('get   eventListAdmin Test', []))
+        
+    );
+  }
+
+
+  eventApproveAdmin(id): Observable<any> {
+    const url = `${ENV.mainApi}eventApproveAdmin/${id}`;
+    return this.http.get<any>(url,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   eventApproveAdmin Test`)),
+          catchError(this.handleError('get   eventApproveAdmin Test', []))
+        
+    );
+  }
+
+
+   eventDetailsAdmin(id): Observable<any> {
+    const url = `${ENV.mainApi}eventDetailsAdmin/${id}`;
+    return this.http.get<any>(url,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   eventDetailsAdmin Test`)),
+          catchError(this.handleError('get   eventDetailsAdmin Test', []))
+        
+    );
+  }
+
+
+  eventStatusChange(id,flag): Observable<any> {
+    let a={
+      id:id,
+      flag:flag
+    }
+    const url = `${ENV.mainApi}eventStatusChange`;
+    return this.http.post<any>(JSON.stringify(a),url,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   eventStatusChange Test`)),
+          catchError(this.handleError('get   eventStatusChange Test', []))
+        
+    );
+  }
 }

@@ -1,0 +1,66 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Events'" [icon]="'fa-edit'"></app-page-header>
+    <div class="row">
+    	<div class="contn-class">
+                      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="collapse navbar-collapse">
+                        <div class="mr-auto">
+                            <span>Users List
+                            </span>
+                        </div>
+                        <form class="form-inline my-2 my-lg-0 right">
+                            <div class="form-inline my-2 my-lg-0 right">
+                                <input (input)="searchUser(pager)" [(ngModel)]="searchInput" name='searchInput' class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                                <!-- <button class="btn btn-outline-success my-2 my-sm-0" >Search</button> -->
+                            </div>
+                        </form>
+                    </div>
+                </nav>
+                <table class="card-body table" matSort (matSortChange)="sortData($event)" *ngIf="sortedData">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th mat-sort-header="title">Title</th>
+                        <th mat-sort-header="name">Name</th>
+                        <th mat-sort-header="from_date">From Date</th>
+                        <th mat-sort-header="to_date">To Date</th>
+                        <th mat-sort-header="status">Approved Status</th>
+                        <th mat-sort-header="day">Day</th>
+                        <!-- <th mat-sort-header="status">Status</th> -->
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let user of sortedData ;let i=index">
+                        <th scope="row">{{i+1}}</th>
+                        <td >{{user.title}}</td>
+                        <td >{{user.artist_name}}</td>
+                        <td >{{user.from_date}}</td>
+                        <td >{{user.to_date}}</td>
+                        <td >{{user.approved_status}}</td>
+                        <td >{{user.day}}</td>
+                       <!--  <td >
+                                 <span class="cus-switch">
+                                    <label class="switch m-b-0">
+                                        <input type="checkbox" [(ngModel)]="user.status" 
+                                        [ngModelOptions]="{standalone: true}" (change)="onChange(user)">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </span>
+                        </td> -->
+                        <td >
+                            <a  href="javascript:void(0)" [routerLink]="['/eventsDetail/',user.id]" class="fa fa-eye" title="View Detail" ></a>
+                            <a  href="javascript:void(0)" (click)="opendelete(user)" class="fa fa-trash fa-lg user-button" ></a>
+                            <a  *ngIf="user.approved_status!='approved'" href="javascript:void(0)" (click)="onApproved(user)" class="fa fa-check fa-lg user-button" ></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+                <mat-paginator  #pager   [length]="usersDataBackup.length"
+                                  [pageSize]="pageSize"
+                                  [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageoption($event)">
+                </mat-paginator>
+    </div>
+    <!-- /.row -->
+</div>

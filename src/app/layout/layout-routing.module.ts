@@ -24,6 +24,8 @@ const routes: Routes = [
             { path: 'chatroom', loadChildren: './chat-room/chat-room.module#ChatRoomModule' },
             { path: 'chat', loadChildren: './chat/chat.module#ChatModule' },
             { path: 'chat/:id', loadChildren: './chat/chat.module#ChatModule' },
+            { path: 'event', loadChildren: './events-list/events-list.module#EventsListModule' },
+            { path: 'eventsDetail/:id', loadChildren: './events-details/events-details.module#EventsDetailsModule' },
             
         ]
     }

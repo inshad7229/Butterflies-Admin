@@ -1,0 +1,83 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Event Details'" [icon]="'fa-table'"></app-page-header>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+        <!-- *ngIf="page=='userDetailEdit'"
+*ngIf="page=='userDetail'" -->
+            <div class="card mb-3" *ngIf="userDetail">
+                <div class="card-header">
+                   Events's Detail
+                </div>
+                <div class="card-body table-responsive">
+                    <div class="profile-image">
+                        <img *ngIf="userDetail.attachemnt_type=='image'" width="400px" height="400px" alt="no_image.jpg"
+                        [src]="profile_image" class="img-thumbnail-profile" />
+                         <video *ngIf="userDetail.attachemnt_type=='video'" width="320" height="240"  >
+                          <source [src]="profile_image" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <fieldset>
+                        <div class="profile-data">
+                            <div class="table-responsive">
+                                <table class="card-body table" > 
+                                    <tbody *ngIf="userDetail">
+                                    	<tr >
+                                            <th style="border-right: 2px solid #eee">Title</th>
+                                            <td>{{userDetail.title}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Name</th>
+                                            <td>{{userDetail.artist_name}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Type</th>
+                                            <td>{{userDetail.type}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">From Date</th>
+                                            <td>{{userDetail.from_date}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">To Date</th>
+                                            <td>{{userDetail.to_date}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Day</th>
+                                            <td>{{userDetail.day}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">From Timing</th>
+                                            <td>{{userDetail.from_timing}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">To Timing</th>
+                                            <td>{{userDetail.to_timing}}</td>
+                                        </tr>
+                                        <tr >
+                                            <th style="border-right: 2px solid #eee">Approved Status</th>
+                                            <!-- <td>{{userDetail.approved_status}}</td> -->
+                                            <td>
+                                                <span style="float: left;"> {{userDetail.approved_status}}</span>
+                                                <span style="float: right;">
+                                                    <button  *ngIf="userDetail.approved_status!='approved'" class="btn btn-success butter-btn" (click)="onApproved()">Approved</button>
+                                                    <button *ngIf="userDetail.approved_status!='reject'" class="btn btn-danger butter-btn" (click)="onReject()" >Reject</button>
+                                                    <button *ngIf="userDetail.approved_status!='pending'" class="btn btn-warning butter-btn" (click)="onPending()">Pending</button>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <!-- <tr >
+                                            <th style="border-right: 2px solid #eee">Religion</th>
+                                            <td>{{userDetail.religion}}</td>
+                                        </tr> -->
+                                        
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+        </div>
+    </div>
+</div>
