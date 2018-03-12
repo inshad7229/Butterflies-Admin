@@ -53,13 +53,13 @@ export class EventsDetailsComponent implements OnInit {
   }
 
   onStatusChange(id,flag){
-    alert('hy')
+   // alert('hy')
     this.req.id=id
     this.req.flag=flag
      this.adminService.eventStatusChange(this.req)
         .subscribe(data=>{
             if(data.response){
-              
+                     this.userDetail.approved_status=flag
                     this.toastr.success('Events Status Updated Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
                   //this.usersList();
               
