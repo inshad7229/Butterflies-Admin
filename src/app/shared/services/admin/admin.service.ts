@@ -577,16 +577,13 @@ userDetailsAdmin(data): Observable<any> {
   }
 
 
-  eventStatusChange(id,flag): Observable<any> {
-    let a={
-      id:id,
-      flag:flag
-    }
-    const url = `${ENV.mainApi}eventStatusChange`;
-    return this.http.post<any>(JSON.stringify(a),url,httpOptions)
+  eventStatusChange(a): Observable<any> {
+    
+    const url = `${ENV.mainApi}eventStatusChangeAdmin`;
+    return this.http.post<any>(url,a,httpOptions)
           .pipe(
-          tap(heroes => this.log(`get   eventStatusChange Test`)),
-          catchError(this.handleError('get   eventStatusChange Test', []))
+          tap(heroes => this.log(`get   eventStatusChangeAdmin Test`)),
+          catchError(this.handleError('get   eventStatusChangeAdmin Test', []))
         
     );
   }

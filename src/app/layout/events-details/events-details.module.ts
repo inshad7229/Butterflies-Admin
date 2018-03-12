@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PageHeaderModule } from './../../shared';
 import {AdminService} from '../../shared/services/admin/admin.service'
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 import { EventsDetailsRoutingModule } from './events-details-routing.module';
 import { EventsDetailsComponent } from './events-details.component';
@@ -11,7 +12,8 @@ import { EventsDetailsComponent } from './events-details.component';
   imports: [
     CommonModule,
     EventsDetailsRoutingModule,
-    PageHeaderModule
+    PageHeaderModule,
+    ToastModule.forRoot(),
   ],
   declarations: [EventsDetailsComponent],
    providers:[AdminService]
