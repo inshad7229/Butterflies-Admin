@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 
 const AVATAR_URL = 'https://api.adorable.io/avatars/285';
 import { ChatService } from './chat.service';
+import  {ENV} from '../../env'
 
 @Component({
   selector: 'tcc-chat',
@@ -26,6 +27,7 @@ id
 reqMessage
 verifiactionForm
 chat
+profile_image
   constructor(
     private chatService:ChatService,private route: ActivatedRoute,public router: Router, private fb: FormBuilder,private adminService:AdminService,public dialog: MatDialog,vcr: ViewContainerRef,
                 private toastr: ToastsManager) { 
@@ -86,5 +88,26 @@ chat
           }else if (chat.sender_id!= 0 ) {
            return 'pull-left'
           }
+    }
+
+    getImagePath(image){
+      return ENV.imgApi+"users_profile/"+image
+    }
+
+    getTime(time){
+    let d=new Date().getTime()-new Date(time).getTime()
+    // var n = d.toLocaleString();
+    console.log(d/(1000*60))
+    let c=d/(1000*60)
+    let e= Math.round(c)
+    if (e==0) {
+      return 'Just Now'
+    }
+    else if (e <=60) {
+      return e+' Min Ago'
+    }
+    //console.log(d/60*1000)
+    // let f= new Date(n)
+    // console.log(f)
     }
  }
