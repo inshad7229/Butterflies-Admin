@@ -41,6 +41,9 @@ profile_image
   this.route.params.subscribe(res => {
         console.log(res.id)
         this.id=res.id
+        this.reqMessage.room_id=this.id
+        this.chatService.roomJoin(this.reqMessage);
+
       });}
       
   
@@ -50,11 +53,20 @@ profile_image
     this.reqMessage.room_id=this.id
     this.reqMessage.receiver_id=2//this.roomdetails.user_id
     this.reqMessage.message=this.chat
-    this.reqMessage.unique_code=/*this.roomdetails.user_id*/2+ new Date().getTime()
+    this.reqMessage.created_at=new Date()
+    this.reqMessage.unique_code=this.roomdetails.user_id+ new Date().getTime()
     this.chatService.sendMessage(this.reqMessage);
-    this.messages.push(this.reqMessage)
+    //this.messages.push(this.reqMessage)
     this.chat=''
     this.message = '';
+  }
+
+  onKey(){
+    this.chatService.typeIn(this.reqMessage);
+  }
+
+  onBlur(){
+    this.chatService.typeOut(this.reqMessage); 
   }
 
   ngOnInit() {

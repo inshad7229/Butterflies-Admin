@@ -78,7 +78,7 @@
                     Send
                 </button>
             </span> -->
-            <input id="btn-input" type="text" class="form-control custom-form-control" placeholder="Type your message here..." [formControl]="verifiactionForm.controls['chat']" [(ngModel)]="chat" >
+            <input id="btn-input" type="text" class="form-control custom-form-control" placeholder="Type your message here..." [formControl]="verifiactionForm.controls['chat']" [(ngModel)]="chat" (keyup)="onKey()" (blur)="onBlur()">
             <div class="input-group-append">
                 <button class="btn btn-warning btn-sm" id="btn-chat" (click)="sendMessage('hdhhdh')">
                     Send
