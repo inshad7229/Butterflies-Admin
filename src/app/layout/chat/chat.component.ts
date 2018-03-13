@@ -1,161 +1,90 @@
-import { Component, OnInit, ViewChildren, ViewChild, AfterViewInit, QueryList, ElementRef } from '@angular/core';
-import { MatDialog, MatDialogRef, MatList, MatListItem } from '@angular/material';
-
-import { Action } from './shared/model/action';
-import { Event } from './shared/model/event';
-import { Message } from './shared/model/message';
-import { User } from './shared/model/user';
-import { SocketService } from './shared/services/socket.service';
-import { DialogUserComponent } from './dialog-user/dialog-user.component';
-import { DialogUserType } from './dialog-user/dialog-user-type';
-import { FormControl, Validators } from '@angular/forms';
-
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
+import { Component, OnInit,ViewChild,Inject,ViewContainerRef } from '@angular/core';
+import { Router } from '@angular/router';
+import {Sort} from '@angular/material';
+import { ToastsManager , Toast} from 'ng2-toastr';
+import { forkJoin } from "rxjs/observable/forkJoin";
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { routerTransition } from '../../router.animations';
+import {AdminService} from '../../shared/services/admin/admin.service'
+import { ActivatedRoute } from '@angular/router'; 
 
 const AVATAR_URL = 'https://api.adorable.io/avatars/285';
+import { ChatService } from './chat.service';
 
 @Component({
   selector: 'tcc-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, AfterViewInit {
+export class ChatComponent implements OnInit {
    usernameFormControl = new FormControl('', [Validators.required]);
-  action = Action;
-  user: User;
-  messages: Message[] = [];
-  messageContent: string;
-  ioConnection: any;
-  dialogRef: MatDialogRef<DialogUserComponent> | null;
-  defaultDialogUserParams: any = {
-    disableClose: true,
-    data: {
-      title: 'Welcome',
-      dialogType: DialogUserType.NEW
-    }
-  };
+  message: string;
+messages: string[] = [];
+roomdetails
+id
+reqMessage
+verifiactionForm
+chat
+  constructor(
+    private chatService:ChatService,private route: ActivatedRoute,public router: Router, private fb: FormBuilder,private adminService:AdminService,public dialog: MatDialog,vcr: ViewContainerRef,
+                private toastr: ToastsManager) { 
+     this.verifiactionForm = fb.group({
+                'chat': [null, Validators.compose([Validators.required,Validators.maxLength(1000)])],
+                
+            
+        }) 
 
-  // getting a reference to the overall list, which is the parent container of the list items
-  @ViewChild(MatList, { read: ElementRef }) matList: ElementRef;
-
-  // getting a reference to the items/messages within the list
-  @ViewChildren(MatListItem, { read: ElementRef }) matListItems: QueryList<MatListItem>;
-
-  constructor(private socketService: SocketService,
-    public dialog: MatDialog) { }
-
-  ngOnInit(): void {
-    this.initModel();
-    // Using timeout due to https://github.com/angular/angular/issues/14748
-    setTimeout(() => {
-      this.openUserPopup(this.defaultDialogUserParams);
-    }, 0);
+   this.reqMessage={}
+  this.route.params.subscribe(res => {
+        console.log(res.id)
+        this.id=res.id
+      });}
+      
+  
+    sendMessage(msg) {
+    this.reqMessage={}
+    this.reqMessage.sender_id=0
+    this.reqMessage.room_id=this.id
+    this.reqMessage.receiver_id=2//this.roomdetails.user_id
+    this.reqMessage.message=this.chat
+    this.reqMessage.unique_code=/*this.roomdetails.user_id*/2+ new Date().getTime()
+    this.chatService.sendMessage(this.reqMessage);
+    this.messages.push(this.reqMessage)
+    this.chat=''
+    this.message = '';
   }
 
-  ngAfterViewInit(): void {
-    // subscribing to any changes in the list of items / messages
-    this.matListItems.changes.subscribe(elements => {
-      this.scrollToBottom();
-    });
-  }
+  ngOnInit() {
 
-  // auto-scroll fix: inspired by this stack overflow post
-  // https://stackoverflow.com/questions/35232731/angular2-scroll-to-bottom-chat-style
-  private scrollToBottom(): void {
-    try {
-      this.matList.nativeElement.scrollTop = this.matList.nativeElement.scrollHeight;
-    } catch (err) {
-    }
-  }
+     this.adminService.ChatRoomIdDetails(this.id).subscribe(data=>{
+            console.log(data.result);
+            this.roomdetails=data.result
+            this.messages=this.roomdetails.adminRoomChats
+          
+        })
 
-  private initModel(): void {
-    const randomId = this.getRandomId();
-    this.user = {
-      id: randomId,
-      avatar: `${AVATAR_URL}/${randomId}.png`
-    };
-  }
-
-  private initIoConnection(): void {
-    this.socketService.initSocket();
-
-    this.ioConnection = this.socketService.onMessage()
-      .subscribe((message: Message) => {
+     this.chatService
+      .getMessages()
+      .subscribe((message: string) => {
+        console.log(message)
         this.messages.push(message);
-      });
-
-
-    this.socketService.onEvent(Event.CONNECT)
-      .subscribe(() => {
-        console.log('connected');
-      });
-
-    this.socketService.onEvent(Event.DISCONNECT)
-      .subscribe(() => {
-        console.log('disconnected');
-      });
-  }
-
-  private getRandomId(): number {
-    return Math.floor(Math.random() * (1000000)) + 1;
-  }
-
-  public onClickUserInfo() {
-    this.openUserPopup({
-      data: {
-        username: this.user.name,
-        title: 'Edit Details',
-        dialogType: DialogUserType.EDIT
-      }
     });
-  }
-
-  private openUserPopup(params): void {
-    this.dialogRef = this.dialog.open(DialogUserComponent, params);
-    this.dialogRef.afterClosed().subscribe(paramsDialog => {
-      if (!paramsDialog) {
-        return;
-      }
-
-      this.user.name = paramsDialog.username;
-      if (paramsDialog.dialogType === DialogUserType.NEW) {
-        this.initIoConnection();
-        this.sendNotification(paramsDialog, Action.JOINED);
-      } else if (paramsDialog.dialogType === DialogUserType.EDIT) {
-        this.sendNotification(paramsDialog, Action.RENAME);
-      }
-    });
-  }
-
-  public sendMessage(message: string): void {
-    if (!message) {
-      return;
     }
 
-    this.socketService.send({
-      from: this.user,
-      content: message
-    });
-    this.messageContent = null;
-  }
-
-  public sendNotification(params: any, action: Action): void {
-    let message: Message;
-
-    if (action === Action.JOINED) {
-      message = {
-        from: this.user,
-        action: action
-      }
-    } else if (action === Action.RENAME) {
-      message = {
-        action: action,
-        content: {
-          username: this.user.name,
-          previousUsername: params.previousUsername
-        }
-      };
+    getClass(chat){
+          if (chat.sender_id== 0) {
+            return 'right clearfix'
+          }else if (chat.sender_id!= 0 ) {
+           return 'left clearfix'
+          }
     }
 
-    this.socketService.send(message);
-  }
-}
+    getClass2(chat){
+        if (chat.sender_id== 0 ) {
+            return 'pull-right'
+          }else if (chat.sender_id!= 0 ) {
+           return 'pull-left'
+          }
+    }
+ }

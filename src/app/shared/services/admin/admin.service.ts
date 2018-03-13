@@ -587,4 +587,16 @@ userDetailsAdmin(data): Observable<any> {
         
     );
   }
+
+
+  ChatRoomIdDetails(id): Observable<any> {
+    
+    const url = `${ENV.mainApi}chatRoomIdDetailsAdmin/${id}`;
+    return this.http.get<any>(url,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   chatRoomIdDetailsAdmin Test`)),
+          catchError(this.handleError('get   chatRoomIdDetailsAdmin Test', []))
+        
+    );
+  }
 }

@@ -16,7 +16,7 @@ import { ChatComponent } from './chat.component';
 import { SocketService } from './shared/services/socket.service';
 import { DialogUserComponent } from './dialog-user/dialog-user.component';
 
-// import {ChatService} from './chat.service'
+import {ChatService} from './chat.service'
 
 
 @NgModule({
@@ -38,7 +38,7 @@ MatInputModule,
 ToastModule.forRoot(),
   ],
   declarations: [ChatComponent,DialogUserComponent],
-   providers:[AdminService,SocketService],
+   providers:[AdminService,SocketService,ChatService],
    entryComponents: [DialogUserComponent]
 })
 export class ChatModule { }

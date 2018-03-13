@@ -1,36 +1,90 @@
-<button mat-fab (click)="onClickUserInfo()">
-  <mat-icon>person</mat-icon>
-</button>
-<div class="chat-container">
-  <mat-card class="main-card">
-    <mat-list class="chat-list">
-      <mat-list-item *ngFor="let message of messages" [ngClass]="[(message.action === undefined && message.from.id === user.id)? 'chat-list-item': '']">
-        <img mat-list-avatar *ngIf="message.action === undefined" [src]="message.from.avatar">
-        <h4 mat-line *ngIf="message.action === undefined">
-          <b>{{message.from.name}}</b>
-        </h4>
-        <p mat-line *ngIf="message.action === undefined">
-          <span> {{message.content}} </span>
-        </p>
-        <p mat-line *ngIf="message.action === action.JOINED" class="chat-notification">
-          <span> <b>{{message.from.name}}</b> joined to the conversation. </span>
-        </p>
-        <p mat-line *ngIf="message.action === action.RENAME" class="chat-notification">
-          <span> <b>{{message.content.previousUsername}}</b> is now <b>{{message.content.username}}</b> </span>
-        </p>
-      </mat-list-item>
-    </mat-list>
-    <div class="chat-footer-container">
-      <mat-icon>message</mat-icon>
-      <mat-form-field class="chat-input">
-        <input matInput 
-               #inputMessage 
-               maxlength="140" 
-               placeholder="Type your message" 
-               [(ngModel)]="messageContent" 
-               (keyup.enter)="sendMessage(messageContent)" [formControl]="usernameFormControl">
-     <!--    <mat-hint align="end">{{inputMessage.value.length}}/140</mat-hint> -->
-      </mat-form-field>
+<div class="chat-panel card card-default">
+    <div class="card-header">
+        <i class="fa fa-comments fa-fw"></i>
+        Chat
+        <div class=" pull-right" ngbDropdown>
+            <button class="btn btn-secondary btn-sm" ngbDropdownToggle>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li role="menuitem"><a class="dropdown-item" href="#">
+                    <i class="fa fa-refresh fa-fw"></i> Refresh</a>
+                </li>
+                <li role="menuitem"><a class="dropdown-item" href="#">
+                    <i class="fa fa-check-circle fa-fw"></i> Available</a>
+                </li>
+                <li role="menuitem"><a class="dropdown-item" href="#">
+                    <i class="fa fa-times fa-fw"></i> Busy</a>
+                </li>
+                <li class="divider dropdown-divider"></li>
+                <li role="menuitem">
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-times fa-fw"></i> Busy
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-item">
+                        <i class="fa fa-clock-o fa-fw"></i> Away
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#" class="dropdown-item">
+                    <i class="fa fa-sign-out fa-fw"></i> Sign Out
+                  </a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </mat-card>
+    <!-- /.panel-heading -->
+    <div class="card-body">
+        <ul class="chat" *ngIf="messages">
+            <li  *ngFor="let chat of messages" class="{{getClass(chat)}}">
+     
+                     <span class="chat-img {{getClass2(chat)}}">
+                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                    </span>
+                    <div class="chat-body clearfix">
+                        <div class="header" *ngIf="chat.sender_id== 0">
+                            <small class=" text-muted">
+                                <i class="fa fa-clock-o fa-fw"></i> 13 mins ago
+                            </small>
+                            <strong class="pull-right primary-font">Bhaumik Patel</strong>
+                        </div>
+                        <div class="header" *ngIf="chat.sender_id!=0">
+                            <strong class="primary-font">Jack Sparrow</strong>
+                            <small class="pull-right text-muted">
+                                <i class="fa fa-clock-o fa-fw"></i> 14 mins ago
+                            </small>
+                       </div>
+                        <p>
+                            {{chat.message}}
+                        </p>
+                    </div>
+               
+               
+            </li>
+            
+        </ul>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+        <div class="input-group">
+          <form style="width: 100%" role="form" [formGroup]="verifiactionForm">
+            <!-- <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." >
+            <span class="input-group-btn">
+                <button class="btn btn-warning btn-sm" id="btn-chat" (click)="sendMessage('hdhhdh')">
+                    Send
+                </button>
+            </span> -->
+            <input id="btn-input" type="text" class="form-control custom-form-control" placeholder="Type your message here..." [formControl]="verifiactionForm.controls['chat']" [(ngModel)]="chat" >
+            <div class="input-group-append">
+                <button class="btn btn-warning btn-sm" id="btn-chat" (click)="sendMessage('hdhhdh')">
+                    Send
+                </button>
+            </div>
+         </form>
+        </div>
+    </div>
+    <!-- /.card-footer -->
 </div>
