@@ -95,17 +95,38 @@ profile_image
     }
 
     getTime(time){
-    let d=new Date().getTime()-new Date(time).getTime()
+    let g=new Date().getTime()-new Date(time).getTime()
     // var n = d.toLocaleString();
     console.log(d/(1000*60))
     let c=d/(1000*60)
     let e= Math.round(c)
-    if (e==0) {
-      return 'Just Now'
-    }
-    else if (e <=60) {
-      return e+' Min Ago'
-    }
+     var s = Math.floor(g / 1000);
+     var m = Math.floor(s / 60);
+     var s = s % 60;
+     var h = Math.floor(m / 60);
+     var m = m % 60;
+     var d = Math.floor(h / 24);
+     var h = h % 24;
+     if (d>0) {
+       return d+' Days Ago'
+     }else{
+         if (h>1) {
+          return h+' Hours Ago'
+         }else{
+           if (m>1) {
+            return m+' Min Ago'
+           }else{
+             return s+' Sec Ago'
+           }
+         }
+       //return d+' Days Ago'
+     }
+    // if (e==0) {
+    //   return 'Just Now'
+    // }
+    // else if (e <=60) {
+    //   return e+' Min Ago'
+    // }
     //console.log(d/60*1000)
     // let f= new Date(n)
     // console.log(f)
