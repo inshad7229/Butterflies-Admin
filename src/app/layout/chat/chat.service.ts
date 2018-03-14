@@ -43,15 +43,34 @@ export class ChatService {
     }
 
    public sendMessage(message) {
-        this.socket.emit('new-message', message);
+        this.socket.emit('adminmessage', message);
     }
 
     public getMessages = () => {
         return Observable.create((observer) => {
-            this.socket.on('new-message', (message) => {
+            this.socket.on('adminmessage', (message) => {
                 observer.next(message);
                 console.log(message)
             });
         });
   }
+
+
+   public getTypeIn = () => {
+         return Observable.create((observer) => {
+            this.socket.on('typeIn', (message) => {
+                observer.next(message);
+                console.log(message)
+            });
+        });
+    }
+
+    public getTypeOut = () => {
+         return Observable.create((observer) => {
+            this.socket.on('typeOut', (message) => {
+                observer.next(message);
+                console.log(message)
+            });
+        });
+    }
 }

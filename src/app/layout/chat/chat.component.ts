@@ -41,20 +41,30 @@ profile_image
   this.route.params.subscribe(res => {
         console.log(res.id)
         this.id=res.id
-        this.reqMessage.room_id=this.id
-        this.chatService.roomJoin(this.reqMessage);
+            this.reqMessage.sender_id=0
+           this.chatService.roomJoin(this.reqMessage);
 
-      });}
+      });
+       this.adminService.ChatRoomIdDetails(this.id).subscribe(data=>{
+            console.log(data.result);
+            this.roomdetails=data.result
+            this.messages=this.roomdetails.adminRoomChats
+            this.reqMessage.receiver_id=this.roomdetails.user_id
+          
+        })
+
+
+}
       
   
     sendMessage(msg) {
-    this.reqMessage={}
     this.reqMessage.sender_id=0
     this.reqMessage.room_id=this.id
-    this.reqMessage.receiver_id=2//this.roomdetails.user_id
+    this.reqMessage.receiver_id=this.roomdetails.user_id
     this.reqMessage.message=this.chat
     this.reqMessage.created_at=new Date()
     this.reqMessage.unique_code=this.roomdetails.user_id+ new Date().getTime()
+    this.reqMessage.check_status='unread'
     this.chatService.sendMessage(this.reqMessage);
     //this.messages.push(this.reqMessage)
     this.chat=''
@@ -71,12 +81,6 @@ profile_image
 
   ngOnInit() {
 
-     this.adminService.ChatRoomIdDetails(this.id).subscribe(data=>{
-            console.log(data.result);
-            this.roomdetails=data.result
-            this.messages=this.roomdetails.adminRoomChats
-          
-        })
 
      this.chatService
       .getMessages()
@@ -84,6 +88,25 @@ profile_image
         console.log(message)
         this.messages.push(message);
     });
+
+      this.chatService
+      .getTypeOut()
+      .subscribe((message: string) => {
+        console.log(message)
+       // this.messages.push(message);
+    });
+
+      this.chatService
+      .getTypeIn()
+      .subscribe((message: string) => {
+        console.log(message)
+        //this.messages.push(message);
+    });
+    }
+
+
+    ngOnDestroy(){
+      this.chatService.roomLeave(this.reqMessage);
     }
 
     getClass(chat){
