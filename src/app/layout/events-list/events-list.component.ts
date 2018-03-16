@@ -59,7 +59,9 @@ this.AllUsersList=[]
 
   usersList(){
          this.usersDataBackup=[];
-this.users=[];
+     this.users=[];
+    this.usersDataBackup=[]
+    this.AllUsersList=[]
         this.adminService.eventListAdmin().subscribe(data=>{
             console.log(data);
             if(data.response==true){

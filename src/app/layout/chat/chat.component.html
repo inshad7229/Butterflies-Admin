@@ -2,7 +2,7 @@
     <div class="card-header">
         <i class="fa fa-comments fa-fw"></i>
         Chat
-        <div class=" pull-right" ngbDropdown>
+       <!--  <div class=" pull-right" ngbDropdown>
             <button class="btn btn-secondary btn-sm" ngbDropdownToggle>
                 <span class="caret"></span>
             </button>
@@ -34,7 +34,8 @@
                   </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
+        <span *ngIf="typingStatus && roomdetails">{{roomdetails.userDetails.name}} is typing</span> 
     </div>
     <!-- /.panel-heading -->
     <div class="card-body">
@@ -42,8 +43,8 @@
             <li  *ngFor="let chat of messages" class="{{getClass(chat)}}">
      
                      <span class="chat-img {{getClass2(chat)}}">
-                        <img *ngIf="chat.sender_id== 0" src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
-                        <img *ngIf="chat.sender_id!= 0" src="{{getImagePath(chat.senderDetails.profile_image)}}" alt="User Avatar" class="img-circle" style="width: 50px;height: 50px">
+                        <img *ngIf="chat.sender_id== 0" src="assets/images/logo-1024.png" alt="User Avatar" class="img-circle" style="width: 50px;height: 50px">
+                        <img *ngIf="chat.sender_id!= 0" src="{{getImagePath(roomdetails.userDetails.profile_image)}}" alt="User Avatar" class="img-circle" style="width: 50px;height: 50px">
                     </span>
                     <div class="chat-body clearfix">
                         <div class="header" *ngIf="chat.sender_id== 0">
@@ -53,7 +54,7 @@
                             <strong class="pull-right primary-font">You</strong>
                         </div>
                         <div class="header" *ngIf="chat.sender_id!=0">
-                            <strong class="primary-font">{{chat.senderDetails.name}}</strong>
+                            <strong class="primary-font">{{roomdetails.userDetails.name}}</strong>
                             <small class="pull-right text-muted">
                                 <i class="fa fa-clock-o fa-fw"></i> {{getTime(chat.created_at)}}
                             </small>
@@ -65,7 +66,7 @@
                
                
             </li>
-            
+        <!--     <p #scrollMe></p> -->
         </ul>
     </div>
     <!-- /.card-body -->
@@ -78,7 +79,7 @@
                     Send
                 </button>
             </span> -->
-            <input id="btn-input" type="text" class="form-control custom-form-control" placeholder="Type your message here..." [formControl]="verifiactionForm.controls['chat']" [(ngModel)]="chat" (keyup)="onKey()" (blur)="onBlur()">
+            <input id="btn-input" type="text" class="form-control custom-form-control" placeholder="Type your message here..." [formControl]="verifiactionForm.controls['chat']" [(ngModel)]="chat" (focus)="onKey()" (focusout)="onBlur()">
             <div class="input-group-append">
                 <button class="btn btn-warning btn-sm" id="btn-chat" (click)="sendMessage('hdhhdh')">
                     Send

@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 import {AdminService} from '../../shared/services/admin/admin.service'
 import  {ENV} from '../../env'
 import { ToastsManager , Toast} from 'ng2-toastr';
+import { routerTransition } from '../../router.animations';
 
 
 @Component({
   selector: 'app-events-details',
   templateUrl: './events-details.component.html',
-  styleUrls: ['./events-details.component.scss']
+  styleUrls: ['./events-details.component.scss'],
+  animations: [routerTransition()]
 })
 export class EventsDetailsComponent implements OnInit {
 	id

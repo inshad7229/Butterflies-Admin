@@ -20,12 +20,12 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th mat-sort-header="name">Room ID</th>
-                        <th mat-sort-header="email">Name</th>
-                        <th mat-sort-header="contact">Contact</th>
-                        <th mat-sort-header="register">Age</th>
+                        <th mat-sort-header="room_id">Room ID</th>
+                        <th mat-sort-header="name">Name</th>
+                        <th mat-sort-header="contact_no">Contact</th>
+                        <th mat-sort-header="age">Age</th>
                         <th mat-sort-header="gender">Gender</th>
-                        <th mat-sort-header="vegetarian">Unread Message Count</th>
+                        <!-- <th mat-sort-header="vegetarian">Unread Message Count</th> -->
                       <!--   <th mat-sort-header="status"></th> -->
                         <th>Action</th>
                     </tr>
@@ -38,7 +38,7 @@
                         <td >{{user.userDetails.contact_no}}</td>
                         <td >{{user.userDetails.age}}</td>
                         <td >{{user.userDetails.gender}}</td>
-                        <td >{{user.vegetarian}}</td>
+                        <!-- <td >{{user.vegetarian}}</td> -->
                         <td >
                             <a  href="javascript:void(0)" [routerLink]="['/chat/',user.room_id]" class="fa fa-comment fa-lg user-button" ></a>
                         </td>

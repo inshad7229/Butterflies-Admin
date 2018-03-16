@@ -1,5 +1,5 @@
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
-import { Component, OnInit,ViewChild,Inject,ViewContainerRef } from '@angular/core';
+import { Component, OnInit,ViewChild,Inject,ViewContainerRef ,AfterViewChecked,ElementRef} from '@angular/core';
 import { Router } from '@angular/router';
 import {Sort} from '@angular/material';
 import { ToastsManager , Toast} from 'ng2-toastr';
@@ -16,9 +16,12 @@ import  {ENV} from '../../env'
 @Component({
   selector: 'tcc-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.scss'],
+  animations: [routerTransition()]
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit,AfterViewChecked {
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+
    usernameFormControl = new FormControl('', [Validators.required]);
   message: string;
 messages: string[] = [];
@@ -28,6 +31,7 @@ reqMessage
 verifiactionForm
 chat
 profile_image
+typingStatus:boolean=false;
   constructor(
     private chatService:ChatService,private route: ActivatedRoute,public router: Router, private fb: FormBuilder,private adminService:AdminService,public dialog: MatDialog,vcr: ViewContainerRef,
                 private toastr: ToastsManager) { 
@@ -42,6 +46,7 @@ profile_image
         console.log(res.id)
         this.id=res.id
             this.reqMessage.sender_id=0
+            this.reqMessage.room_id=this.id
            this.chatService.roomJoin(this.reqMessage);
 
       });
@@ -72,10 +77,12 @@ profile_image
   }
 
   onKey(){
+     console.log('admin typein')
     this.chatService.typeIn(this.reqMessage);
   }
 
   onBlur(){
+     console.log('admin typeout')
     this.chatService.typeOut(this.reqMessage); 
   }
 
@@ -87,21 +94,30 @@ profile_image
       .subscribe((message: string) => {
         console.log(message)
         this.messages.push(message);
+       // this.scrollToBottom();
     });
 
       this.chatService
       .getTypeOut()
-      .subscribe((message: string) => {
-        console.log(message)
-       // this.messages.push(message);
+      .subscribe((message) => {
+        // console.log(message)
+       if (message.sender_id !=0) {
+         console.log('user typeout')
+          this.typingStatus=false
+        }
     });
 
       this.chatService
       .getTypeIn()
-      .subscribe((message: string) => {
-        console.log(message)
+      .subscribe((message) => {
+        // console.log(message)
+        if (message.sender_id !=0) {
+          this.typingStatus=true
+          console.log('user typein')
+        }
         //this.messages.push(message);
     });
+
     }
 
 
@@ -166,4 +182,16 @@ profile_image
     // let f= new Date(n)
     // console.log(f)
     }
+
+
+
+     ngAfterViewChecked() {        
+        window.scrollTo(450,document.querySelector(".chat").scrollHeight);
+    } 
+
+    // scrollToBottom(): void {
+    //     try {
+    //         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    //     } catch(err) { }                 
+    // }
  }

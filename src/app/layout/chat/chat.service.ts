@@ -60,7 +60,7 @@ export class ChatService {
          return Observable.create((observer) => {
             this.socket.on('typeIn', (message) => {
                 observer.next(message);
-                console.log(message)
+               // console.log(message)
             });
         });
     }
@@ -69,7 +69,7 @@ export class ChatService {
          return Observable.create((observer) => {
             this.socket.on('typeOut', (message) => {
                 observer.next(message);
-                console.log(message)
+               // console.log(message)
             });
         });
     }
