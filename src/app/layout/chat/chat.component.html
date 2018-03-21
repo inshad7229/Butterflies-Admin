@@ -46,10 +46,12 @@
                         <img *ngIf="chat.sender_id== 0" src="assets/images/logo-1024.png" alt="User Avatar" class="img-circle" style="width: 50px;height: 50px">
                         <img *ngIf="chat.sender_id!= 0" src="{{getImagePath(roomdetails.userDetails.profile_image)}}" alt="User Avatar" class="img-circle" style="width: 50px;height: 50px">
                     </span>
-                    <div class="chat-body clearfix">
+                    <div class="chat-body check-cls clearfix">
                         <div class="header" *ngIf="chat.sender_id== 0">
                             <small class=" text-muted">
                                 <i class="fa fa-clock-o fa-fw"></i>{{getTime(chat.created_at)}}
+                                 <i class="fa fa-check double fa-fw"></i>
+                                 <i *ngIf="chat.check_status=='read'" class="fa fa-check  fa-fw"></i>
                             </small>
                             <strong class="pull-right primary-font">You</strong>
                         </div>

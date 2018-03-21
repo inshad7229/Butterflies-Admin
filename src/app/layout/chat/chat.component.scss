@@ -39,3 +39,14 @@
     float: left;
     width: 95.4%;
 }
+
+.check-cls { 
+        .text-muted{
+            position: relative;
+    .fa.fa-check.double.fa-fw {
+        position: absolute;
+        top: 5px;
+        right: -4px;
+    }
+}
+}

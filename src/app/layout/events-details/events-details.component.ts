@@ -1,9 +1,9 @@
 import { Component, OnInit,ViewContainerRef } from '@angular/core';
+import { ToastsManager , Toast} from 'ng2-toastr';
 import { ActivatedRoute } from '@angular/router'; 
 import { Router } from '@angular/router';
 import {AdminService} from '../../shared/services/admin/admin.service'
 import  {ENV} from '../../env'
-import { ToastsManager , Toast} from 'ng2-toastr';
 import { routerTransition } from '../../router.animations';
 
 

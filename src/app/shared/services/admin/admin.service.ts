@@ -599,4 +599,14 @@ userDetailsAdmin(data): Observable<any> {
         
     );
   }
+   userPicStatusChange(a): Observable<any> {
+    
+    const url = `${ENV.mainApi}userPicStatusChange`;
+    return this.http.post<any>(url,a,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   userPicStatusChange Test`)),
+          catchError(this.handleError('get   userPicStatusChange Test', []))
+        
+    );
+  }
 }

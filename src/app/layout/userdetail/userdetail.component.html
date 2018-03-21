@@ -1,3 +1,5 @@
+
+
 <div [@routerTransition]>
     <app-page-header [heading]="'User-Profile'" [icon]="'fa-table'"></app-page-header>
     <div class="row">
@@ -12,6 +14,16 @@
                     <div class="profile-image">
                         <img  width="400px" height="400px" alt="no_image.jpg"
                         [src]="profile_image" class="img-thumbnail-profile" />
+                        <div>
+                            <span>Current status :{{userDetail.profile_pic_status}}</span>
+                            <div style="margin-top: 10px;">
+                                <span >
+                                <button  *ngIf="userDetail.profile_pic_status !='approved'" class="btn btn-success butter-btn" (click)="onPicStatusChange(userDetail.id,'approved')">Approved</button>
+                                <button  *ngIf="userDetail.profile_pic_status !='reject'" class="btn btn-danger butter-btn" (click)="onPicStatusChange(userDetail.id,'reject')" >Reject</button>
+                               
+                            </span>
+                            </div>
+                        </div>
                   
                     </div>
                     <fieldset>
@@ -91,16 +103,25 @@
                         </div>
                     </fieldset>
                 </div>
+                 <div class="col-md-12 col-sm-12 col-xs-12">
+                     <div class="video-listing">
+                         <ul>
+                             <li *ngFor="let video of userDetail.userVideo">
+                                <video width="320" height="240" controls  >
+                                  <source [src]="onvideo(video)" type="video/mp4">
+                                  Your browser does not support the video tag.
+                                </video>
+                             </li>
+                         </ul>
+                     </div>
+                 </div>
                  <div class="profile-image" *ngFor="let image of userDetail.userImage">
                         <img  width="400px" height="400px" alt="no_image.jpg"
                         [src]="onImage(image)" class="img-thumbnail-profile" />
                   
                  </div>
 
-                 <video width="320" height="240" controls *ngFor="let video of userDetail.userVideo" >
-				  <source [src]="onvideo(video)" type="video/mp4">
-				  Your browser does not support the video tag.
-				</video>
+                 
 
 
 

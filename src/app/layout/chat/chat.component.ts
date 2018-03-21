@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit,AfterViewChecked {
 
    usernameFormControl = new FormControl('', [Validators.required]);
   message: string;
-messages: string[] = [];
+messages: any[] = [];
 roomdetails
 id
 reqMessage
@@ -32,6 +32,7 @@ verifiactionForm
 chat
 profile_image
 typingStatus:boolean=false;
+unreadChats=[]
   constructor(
     private chatService:ChatService,private route: ActivatedRoute,public router: Router, private fb: FormBuilder,private adminService:AdminService,public dialog: MatDialog,vcr: ViewContainerRef,
                 private toastr: ToastsManager) { 
@@ -55,6 +56,13 @@ typingStatus:boolean=false;
             this.roomdetails=data.result
             this.messages=this.roomdetails.adminRoomChats
             this.reqMessage.receiver_id=this.roomdetails.user_id
+            for (var i = 0; i<this.messages.length ; i++) {
+                if (this.messages[i].sender_id !=0 && this.messages[i].check_status=='unread') {
+                  this.messages[i].chatfor='admin'
+                   this.chatService.readMessage(this.messages[i])
+                  // code...
+                }
+            }
           
         })
 

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewContainerRef } from '@angular/core';
+import { ToastsManager , Toast} from 'ng2-toastr';
 import { ActivatedRoute } from '@angular/router'; 
 import { Router } from '@angular/router';
 import {AdminService} from '../../shared/services/admin/admin.service'
@@ -11,12 +12,15 @@ import  {ENV} from '../../env'
 })
 export class UserdetailComponent implements OnInit {
 	id
+  req
 	userDetail
 	imagePath
 	profile_image
 
-  constructor(private adminService:AdminService,public router: Router,private route: ActivatedRoute) 
-  {
+  constructor(private adminService:AdminService,public router: Router,private route: ActivatedRoute,private toastr: ToastsManager,vcr: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vcr); 
+  
+     this.req={}
   	this.route.params.subscribe(res => {
 	  		console.log(res.id)
 	  		this.id=res.id
@@ -47,5 +51,20 @@ export class UserdetailComponent implements OnInit {
   	console.log(data)
   	return this.imagePath+"users_videos/"+data.video_url
   }
-
+   onPicStatusChange(id,flag){
+   // alert('hy')
+    this.req.id=id
+    this.req.flag=flag
+     this.adminService.userPicStatusChange(this.req)
+        .subscribe(data=>{
+            if(data.response){
+                     this.userDetail.profile_pic_status=flag
+                    this.toastr.success('Events Status Updated Successfully' ,'Success',{toastLife: 2000, showCloseButton: true});
+                  //this.usersList();
+              
+            }else{
+               this.toastr.error(data.message ,'Error',{toastLife: 2000, showCloseButton: true}); 
+            }
+        })
+  }
 }
