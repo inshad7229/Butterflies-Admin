@@ -60,9 +60,9 @@
                                             <td>
                                                 <span style="float: left;"> {{userDetail.approved_status}}</span>
                                                 <span style="float: right;">
-                                                    <button  *ngIf="userDetail.approved_status!='approved'" class="btn btn-success butter-btn" (click)="onStatusChange(userDetail.id,'approved')">Approved</button>
-                                                    <button *ngIf="userDetail.approved_status!='reject'" class="btn btn-danger butter-btn" (click)="onStatusChange(userDetail.id,'reject')" >Reject</button>
-                                                    <button *ngIf="userDetail.approved_status!='pending'" class="btn btn-warning butter-btn" (click)="onStatusChange(userDetail.id,'pending')">Pending</button>
+                                                    <button  *ngIf="userDetail.approved_status!='approved'" class="btn btn-success butter-btn" (click)="onStatusChange(userDetail,'approved')">Approved</button>
+                                                    <button *ngIf="userDetail.approved_status!='reject'" class="btn btn-danger butter-btn" (click)="onStatusChange(userDetail,'reject')" >Reject</button>
+                                                    <button *ngIf="userDetail.approved_status!='pending'" class="btn btn-warning butter-btn" (click)="onStatusChange(userDetail,'pending')">Pending</button>
                                                 </span>
                                             </td>
                                         </tr>

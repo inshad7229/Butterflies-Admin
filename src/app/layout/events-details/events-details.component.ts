@@ -54,10 +54,13 @@ export class EventsDetailsComponent implements OnInit {
   	return this.imagePath+"users_videos/"+data.video_url
   }
 
-  onStatusChange(id,flag){
+  onStatusChange(data,flag){
    // alert('hy')
-    this.req.id=id
-    this.req.flag=flag
+      this.req.id=data.id
+      this.req.flag=flag
+      this.req.name=data.usersDetails.name
+      this.req.email=data.usersDetails.email
+      this.req.title=data.title
      this.adminService.eventStatusChange(this.req)
         .subscribe(data=>{
             if(data.response){

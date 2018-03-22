@@ -18,8 +18,8 @@
                             <span>Current status :{{userDetail.profile_pic_status}}</span>
                             <div style="margin-top: 10px;">
                                 <span >
-                                <button  *ngIf="userDetail.profile_pic_status !='approved'" class="btn btn-success butter-btn" (click)="onPicStatusChange(userDetail.id,'approved')">Approved</button>
-                                <button  *ngIf="userDetail.profile_pic_status !='reject'" class="btn btn-danger butter-btn" (click)="onPicStatusChange(userDetail.id,'reject')" >Reject</button>
+                                <button  *ngIf="userDetail.profile_pic_status !='approved'" class="btn btn-success butter-btn" (click)="onPicStatusChange(userDetail,'approved')">Approved</button>
+                                <button  *ngIf="userDetail.profile_pic_status !='reject'" class="btn btn-danger butter-btn" (click)="onPicStatusChange(userDetail,'reject')" >Reject</button>
                                
                             </span>
                             </div>

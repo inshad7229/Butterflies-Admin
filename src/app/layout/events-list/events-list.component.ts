@@ -241,7 +241,13 @@ onDelete(id){
 
 
 onApproved(data){
-this.adminService.eventApproveAdmin(data.id)
+  let reqData={
+         id:data.id,
+         name:data.usersDetails.name,
+         email:data.usersDetails.email,
+         title:data.title  
+        }
+this.adminService.eventApproveAdmin(reqData)
         .subscribe(data=>{
             if(data.response){
                if (data.data[0]==1) {

@@ -51,10 +51,12 @@ export class UserdetailComponent implements OnInit {
   	console.log(data)
   	return this.imagePath+"users_videos/"+data.video_url
   }
-   onPicStatusChange(id,flag){
+   onPicStatusChange(data,flag){
    // alert('hy')
-    this.req.id=id
+    this.req.id=data.id
     this.req.flag=flag
+    this.req.name=data.name
+    this.req.email=data.email
      this.adminService.userPicStatusChange(this.req)
         .subscribe(data=>{
             if(data.response){

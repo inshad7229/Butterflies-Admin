@@ -50,7 +50,7 @@ export class ChatService {
         return Observable.create((observer) => {
             this.socket.on('adminmessage', (message) => {
                 observer.next(message);
-                console.log(message)
+                //console.log(message)
             });
         });
   }
@@ -65,12 +65,31 @@ export class ChatService {
         });
     }
 
+    public messagechecked = () => {
+         return Observable.create((observer) => {
+            this.socket.on('message checked', (message) => {
+                observer.next(message);
+               // console.log(message)
+            });
+        });
+    }
+
+
     public getTypeOut = () => {
          return Observable.create((observer) => {
             this.socket.on('typeOut', (message) => {
                 observer.next(message);
                // console.log(message)
             });
+        });
+    }
+
+     public getFocoused = () => {
+         return Observable.create((observer) => {
+            // this.socket.on('typeOut', (message) => {
+            //     observer.next(message);
+            //    // console.log(message)
+            // });
         });
     }
 }

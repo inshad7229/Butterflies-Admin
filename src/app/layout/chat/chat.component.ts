@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {Sort} from '@angular/material';
 import { ToastsManager , Toast} from 'ng2-toastr';
 import { forkJoin } from "rxjs/observable/forkJoin";
+import {Observable} from 'rxjs/Rx';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { routerTransition } from '../../router.animations';
 import {AdminService} from '../../shared/services/admin/admin.service'
@@ -19,8 +20,8 @@ import  {ENV} from '../../env'
   styleUrls: ['./chat.component.scss'],
   animations: [routerTransition()]
 })
-export class ChatComponent implements OnInit,AfterViewChecked {
-  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+export class ChatComponent implements OnInit {
+  @ViewChild('scrollMe')  scrollMe: ElementRef;
 
    usernameFormControl = new FormControl('', [Validators.required]);
   message: string;
@@ -56,6 +57,7 @@ unreadChats=[]
             this.roomdetails=data.result
             this.messages=this.roomdetails.adminRoomChats
             this.reqMessage.receiver_id=this.roomdetails.user_id
+            //this.scrollToBottom()
             for (var i = 0; i<this.messages.length ; i++) {
                 if (this.messages[i].sender_id !=0 && this.messages[i].check_status=='unread') {
                   this.messages[i].chatfor='admin'
@@ -99,8 +101,9 @@ unreadChats=[]
 
      this.chatService
       .getMessages()
-      .subscribe((message: string) => {
-        console.log(message)
+      .subscribe((message) => {
+        //console.log(message)
+        message.unique_code=message.unique_code.toString()
         this.messages.push(message);
        // this.scrollToBottom();
     });
@@ -124,6 +127,34 @@ unreadChats=[]
           console.log('user typein')
         }
         //this.messages.push(message);
+    });
+
+
+       this.chatService
+      .messagechecked()
+      .subscribe((message) => {
+         console.log('message resad')
+         console.log(message)
+         console.log(JSON.stringify(this.messages[this.messages.length-1]))
+         var index = this.messages.map(function (img) { return img.unique_code; }).indexOf(message.unique_code.toString())
+        // var index = this.messages.map(function(o) { return o.unique_code; }).indexOf(message.unique_code);
+         console.log(index)
+
+         this.messages[index].check_status='read'
+        // if (message.sender_id !=0) {
+        //   this.typingStatus=true1521701251034unique_code: "1521701251034"
+        //   console.log('user typein')
+        // }
+        //this.messages.push(message);
+    });
+
+      this.chatService
+      .getFocoused()
+      .subscribe((message: string) => {
+        //console.log(message)
+        // message.unique_code=message.unique_code.toString()
+        // this.messages.push(message);
+       // this.scrollToBottom();
     });
 
     }
@@ -169,13 +200,19 @@ unreadChats=[]
      if (d>0) {
        return d+' Days Ago'
      }else{
-         if (h>1) {
+         if (h>0) {
           return h+' Hours Ago'
          }else{
-           if (m>1) {
+           if (m>0) {
             return m+' Min Ago'
            }else{
-             return s+' Sec Ago'
+
+             if (s<10) {
+              return 'Just now'
+             }else{
+                 return s+' Sec Ago'
+               
+             }
            }
          }
        //return d+' Days Ago'
@@ -193,13 +230,32 @@ unreadChats=[]
 
 
 
-     ngAfterViewChecked() {        
-        window.scrollTo(450,document.querySelector(".chat").scrollHeight);
-    } 
+    //  ngAfterViewChecked() {        
+    //     window.scrollTo(450,document.querySelector(".chat").scrollHeight);
+    // } 
 
     // scrollToBottom(): void {
     //     try {
     //         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     //     } catch(err) { }                 
     // }
+   private scrollToBottom(): void {
+    try {
+      this.scrollMe.nativeElement.scrollTop = this.scrollMe.nativeElement.scrollHeight;
+    } catch (err) {
+    }
+  }
+
+    getId(i){
+      this.scrollToBottom()
+      return 'li'+(i+1)
+    }
+
+
+    getCurrentBookingCount(data){
+     Observable.interval(2000 * 60).subscribe(x => {
+       //doSomething();
+     })
+      // console.log(this.countDown)
+    }
  }

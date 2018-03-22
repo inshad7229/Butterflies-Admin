@@ -555,9 +555,9 @@ userDetailsAdmin(data): Observable<any> {
   }
 
 
-  eventApproveAdmin(id): Observable<any> {
-    const url = `${ENV.mainApi}eventApproveAdmin/${id}`;
-    return this.http.get<any>(url,httpOptions)
+  eventApproveAdmin(data): Observable<any> {
+    const url = `${ENV.mainApi}eventApproveAdmin`;
+    return this.http.post<any>(url,data,httpOptions)
           .pipe(
           tap(heroes => this.log(`get   eventApproveAdmin Test`)),
           catchError(this.handleError('get   eventApproveAdmin Test', []))
